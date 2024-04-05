@@ -12,8 +12,34 @@ namespace LaLigaFans.Infrastructure.Data
 
         }
 
-        //Implement DbSets
-        //................
+        public DbSet<Address> Addresses { get; set; } = null!;
+
+        public DbSet<Cart> Carts { get; set; } = null!;
+
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        public DbSet<Comment> Comments { get; set; } = null!;
+
+        public DbSet<News> News { get; set; } = null!;
+
+        public DbSet<Order> Order { get; set; } = null!;
+
+        public DbSet<Payment> Payments { get; set; } = null!;
+
+        public DbSet<Player> Players { get; set; } = null!;
+
+        public DbSet<Product> Products { get; set; } = null!;
+
+        public DbSet<Question> Questions { get; set; } = null!;
+
+        public DbSet<Team> Teams { get; set; } = null!;
+
+        public DbSet<ApplicationUserProduct> ApplicationUsersProducts { get; set; } = null!;
+
+        public DbSet<ApplicationUserTeam> ApplicationUsersTeams { get; set; } = null!;
+
+        public DbSet<CartProduct> CartsProducts { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

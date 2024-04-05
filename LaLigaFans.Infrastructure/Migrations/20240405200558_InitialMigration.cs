@@ -52,7 +52,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                 comment: "ApplicationUser is a entity class that extends IdentityUser");
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Category identifier")
@@ -61,12 +61,12 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 },
                 comment: "Category is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "Team",
+                name: "Teams",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Team identifier")
@@ -79,7 +79,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Team", x => x.Id);
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 },
                 comment: "Team is a entity class");
 
@@ -190,7 +190,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
+                name: "Carts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Cart identifier")
@@ -199,9 +199,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cart", x => x.Id);
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_ApplicationUserId",
+                        name: "FK_Carts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -230,7 +230,30 @@ namespace LaLigaFans.Infrastructure.Migrations
                 comment: "Order is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUserTeam",
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Question identifier")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Question title"),
+                    Content = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Question content"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Question created on date"),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Question author identifier")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Questions_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Question is a entity class");
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUsersTeams",
                 columns: table => new
                 {
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "ApplicationUser identifier"),
@@ -238,17 +261,17 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUserTeam", x => new { x.TeamId, x.ApplicationUserId });
+                    table.PrimaryKey("PK_ApplicationUsersTeams", x => new { x.TeamId, x.ApplicationUserId });
                     table.ForeignKey(
-                        name: "FK_ApplicationUserTeam_AspNetUsers_ApplicationUserId",
+                        name: "FK_ApplicationUsersTeams_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserTeam_Team_TeamId",
+                        name: "FK_ApplicationUsersTeams_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
@@ -279,15 +302,15 @@ namespace LaLigaFans.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_News_Team_TeamId",
+                        name: "FK_News_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "Id");
                 },
                 comment: "News is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "Player",
+                name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Player identifier")
@@ -300,18 +323,18 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Player", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Player_Team_TeamId",
+                        name: "FK_Players_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Player is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Product identifier")
@@ -328,24 +351,24 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_Category_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Team_TeamId",
+                        name: "FK_Products_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Product is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Address identifier")
@@ -356,9 +379,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Address_Order_OrderId",
+                        name: "FK_Addresses_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
@@ -367,7 +390,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                 comment: "Address is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Payment identifier")
@@ -378,9 +401,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payment_Order_OrderId",
+                        name: "FK_Payments_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
                         principalColumn: "Id",
@@ -389,7 +412,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                 comment: "Payment is a entity class");
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUserProduct",
+                name: "ApplicationUsersProducts",
                 columns: table => new
                 {
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "ApplicationUser identifier"),
@@ -397,24 +420,24 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUserProduct", x => new { x.ProductId, x.ApplicationUserId });
+                    table.PrimaryKey("PK_ApplicationUsersProducts", x => new { x.ProductId, x.ApplicationUserId });
                     table.ForeignKey(
-                        name: "FK_ApplicationUserProduct_AspNetUsers_ApplicationUserId",
+                        name: "FK_ApplicationUsersProducts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserProduct_Product_ProductId",
+                        name: "FK_ApplicationUsersProducts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "ApplicationUserProduct is a mapping table entity class");
 
             migrationBuilder.CreateTable(
-                name: "CartProduct",
+                name: "CartsProducts",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false, comment: "Product identifier"),
@@ -422,24 +445,24 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartProduct", x => new { x.ProductId, x.CartId });
+                    table.PrimaryKey("PK_CartsProducts", x => new { x.ProductId, x.CartId });
                     table.ForeignKey(
-                        name: "FK_CartProduct_Cart_CartId",
+                        name: "FK_CartsProducts_Carts_CartId",
                         column: x => x.CartId,
-                        principalTable: "Cart",
+                        principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartProduct_Product_ProductId",
+                        name: "FK_CartsProducts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "CartProduct is a mapping table entity class");
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Comment identifier")
@@ -453,40 +476,40 @@ namespace LaLigaFans.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_AuthorId",
+                        name: "FK_Comments_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comment_News_NewsId",
+                        name: "FK_Comments_News_NewsId",
                         column: x => x.NewsId,
                         principalTable: "News",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comment_Product_ProductId",
+                        name: "FK_Comments_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id");
                 },
                 comment: "Comment is a entity class");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_OrderId",
-                table: "Address",
+                name: "IX_Addresses_OrderId",
+                table: "Addresses",
                 column: "OrderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserProduct_ApplicationUserId",
-                table: "ApplicationUserProduct",
+                name: "IX_ApplicationUsersProducts_ApplicationUserId",
+                table: "ApplicationUsersProducts",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserTeam_ApplicationUserId",
-                table: "ApplicationUserTeam",
+                name: "IX_ApplicationUsersTeams_ApplicationUserId",
+                table: "ApplicationUsersTeams",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
@@ -529,29 +552,29 @@ namespace LaLigaFans.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_ApplicationUserId",
-                table: "Cart",
+                name: "IX_Carts_ApplicationUserId",
+                table: "Carts",
                 column: "ApplicationUserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartProduct_CartId",
-                table: "CartProduct",
+                name: "IX_CartsProducts_CartId",
+                table: "CartsProducts",
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_AuthorId",
-                table: "Comment",
+                name: "IX_Comments_AuthorId",
+                table: "Comments",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_NewsId",
-                table: "Comment",
+                name: "IX_Comments_NewsId",
+                table: "Comments",
                 column: "NewsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_ProductId",
-                table: "Comment",
+                name: "IX_Comments_ProductId",
+                table: "Comments",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -570,37 +593,42 @@ namespace LaLigaFans.Infrastructure.Migrations
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payment_OrderId",
-                table: "Payment",
+                name: "IX_Payments_OrderId",
+                table: "Payments",
                 column: "OrderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Player_TeamId",
-                table: "Player",
+                name: "IX_Players_TeamId",
+                table: "Players",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_CategoryId",
-                table: "Product",
+                name: "IX_Products_CategoryId",
+                table: "Products",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_TeamId",
-                table: "Product",
+                name: "IX_Products_TeamId",
+                table: "Products",
                 column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Questions_AuthorId",
+                table: "Questions",
+                column: "AuthorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUserProduct");
+                name: "ApplicationUsersProducts");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUserTeam");
+                name: "ApplicationUsersTeams");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -618,37 +646,40 @@ namespace LaLigaFans.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CartProduct");
+                name: "CartsProducts");
 
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Payment");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Player");
+                name: "Players");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Cart");
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Team");
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

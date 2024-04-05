@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaLigaFans.Infrastructure.Migrations
 {
     [DbContext(typeof(LaLigaFansDbContext))]
-    [Migration("20240405194759_InitialMigration")]
+    [Migration("20240405200558_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
 
                     b.HasComment("Address is a entity class");
                 });
@@ -152,7 +152,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUserProduct");
+                    b.ToTable("ApplicationUsersProducts");
 
                     b.HasComment("ApplicationUserProduct is a mapping table entity class");
                 });
@@ -171,7 +171,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUserTeam");
+                    b.ToTable("ApplicationUsersTeams");
 
                     b.HasComment("ApplicationUserTeam is a mapping table entity class");
                 });
@@ -195,7 +195,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
 
                     b.HasComment("Cart is a entity class");
                 });
@@ -214,7 +214,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartProduct");
+                    b.ToTable("CartsProducts");
 
                     b.HasComment("CartProduct is a mapping table entity class");
                 });
@@ -236,7 +236,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
 
                     b.HasComment("Category is a entity class");
                 });
@@ -287,7 +287,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
 
                     b.HasComment("Comment is a entity class");
                 });
@@ -400,7 +400,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
 
                     b.HasComment("Payment is a entity class");
                 });
@@ -444,7 +444,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Player");
+                    b.ToTable("Players");
 
                     b.HasComment("Player is a entity class");
                 });
@@ -506,9 +506,48 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
 
                     b.HasComment("Product is a entity class");
+                });
+
+            modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Question identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Question author identifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasComment("Question content");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2")
+                        .HasComment("Question created on date");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasComment("Question title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Questions");
+
+                    b.HasComment("Question is a entity class");
                 });
 
             modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Team", b =>
@@ -550,7 +589,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Team");
+                    b.ToTable("Teams");
 
                     b.HasComment("Team is a entity class");
                 });
@@ -861,6 +900,17 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Question", b =>
+                {
+                    b.HasOne("LaLigaFans.Infrastructure.Data.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
