@@ -4,9 +4,9 @@ namespace LaLigaFans.Infrastructure.Data.Comman
 {
     public class Repository : IRepository
     {
-        private readonly DbContext context;
+        private readonly LaLigaFansDbContext context;
 
-        public Repository(DbContext _context)
+        public Repository(LaLigaFansDbContext _context)
         {
             context = _context;
         }
