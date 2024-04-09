@@ -1,4 +1,5 @@
 ﻿using LaLigaFans.Infrastructure.Data;
+using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             //Add services to IoC conteiner
 
+
             return services;
         }
 
@@ -22,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UseSqlServer(connectionString);
             });
 
-            //Add scoped IRepository Repository
+            services.AddScoped<IRepository, Repository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
