@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LaLigaFans.Infrastructure.Data.Comman
+﻿namespace LaLigaFans.Infrastructure.Data.Comman
 {
     public interface IRepository
     {
