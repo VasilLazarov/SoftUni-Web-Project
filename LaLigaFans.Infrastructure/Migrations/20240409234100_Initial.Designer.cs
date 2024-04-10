@@ -4,6 +4,7 @@ using LaLigaFans.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaLigaFans.Infrastructure.Migrations
 {
     [DbContext(typeof(LaLigaFansDbContext))]
-    partial class LaLigaFansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409234100_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,62 +136,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasComment("ApplicationUser is a entity class that extends IdentityUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1dcd54f5-dc66-4540-8cf9-d44658029bfd",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e24278b8-88a4-4603-8c24-701350e88ff9",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            LastName = "Adminov",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAUc7WUMlaLO3GLZRZELUBDvMLiA73DmaQjeMBuQGWCgcMITnS85eHXQNZDa4/IPtw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f303c6b-3fe7-451d-bf3b-79ba955d37bf",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "39487426-97fb-4a00-85ba-9d41e205c8d7",
-                            Email = "publisher@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Publisher",
-                            LastName = "Ivanov",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "PUBLISHER@GMAIL.COM",
-                            NormalizedUserName = "PUBLISHER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOFW1tWWTP0DpoSdEePbbp47W9P8BTcyHTTRSA43xFRySgaf5HhGnlfEICbScXQFyg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fef8d58f-dc46-46e6-8d3d-4c15faf03664",
-                            TwoFactorEnabled = false,
-                            UserName = "publisher@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "9ec8c321-e4d2-4ec4-854c-81b04f6b53c6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4ba84077-d27d-47ea-a498-c31ad441354b",
-                            Email = "user1@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "User",
-                            LastName = "Userov",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER1@GMAIL.COM",
-                            NormalizedUserName = "USER1@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP/pE817jdSmjUGZCO1uIpIPmlvvmAGqvfqjRiQGVWpblnhY4z5W1Bsu0k32uIO4Tw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "c59fecc5-d6cb-4adb-b49f-322c10500577",
-                            TwoFactorEnabled = false,
-                            UserName = "user1@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.ApplicationUserProduct", b =>
@@ -673,29 +619,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "18c72cdd-60c4-4a26-b931-d183cb23e593",
-                            ConcurrencyStamp = "2ab92897-64a5-455a-966f-2cb2939939d6",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "91accf42-f5d3-47ee-8300-4671d5b47e46",
-                            ConcurrencyStamp = "2712769e-c688-4632-96d6-140028c765d9",
-                            Name = "Publisher",
-                            NormalizedName = "PUBLISHER"
-                        },
-                        new
-                        {
-                            Id = "f9725b78-b6af-40c1-90d4-f77de178c1fd",
-                            ConcurrencyStamp = "e442f585-cd4e-428b-8b06-510065d0a0e0",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -746,29 +669,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimType = "user:fullname",
-                            ClaimValue = "Admin Adminov",
-                            UserId = "1dcd54f5-dc66-4540-8cf9-d44658029bfd"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClaimType = "user:fullname",
-                            ClaimValue = "Publisher Ivanov",
-                            UserId = "176d92cc-bdaf-4569-94b8-fa377f980d89"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClaimType = "user:fullname",
-                            ClaimValue = "User Userov",
-                            UserId = "9ec8c321-e4d2-4ec4-854c-81b04f6b53c6"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -808,23 +708,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "1dcd54f5-dc66-4540-8cf9-d44658029bfd",
-                            RoleId = "18c72cdd-60c4-4a26-b931-d183cb23e593"
-                        },
-                        new
-                        {
-                            UserId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            RoleId = "91accf42-f5d3-47ee-8300-4671d5b47e46"
-                        },
-                        new
-                        {
-                            UserId = "9ec8c321-e4d2-4ec4-854c-81b04f6b53c6",
-                            RoleId = "f9725b78-b6af-40c1-90d4-f77de178c1fd"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

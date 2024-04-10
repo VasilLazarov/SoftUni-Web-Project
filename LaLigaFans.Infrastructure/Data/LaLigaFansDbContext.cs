@@ -1,4 +1,5 @@
 ﻿using LaLigaFans.Infrastructure.Data.Models;
+using LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,7 +59,12 @@ namespace LaLigaFans.Infrastructure.Data
                 entity.HasKey(pk => new { pk.TeamId, pk.ApplicationUserId });
             });
 
-            
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserClaimsConfiguration());
+            builder.ApplyConfiguration(new IdentityRolesConfiguration());
+            builder.ApplyConfiguration(new UsersRolesConfiguration());
+
+
             //Apply entity models configurations
             //..................................
 
