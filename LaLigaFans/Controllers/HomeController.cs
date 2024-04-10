@@ -1,10 +1,11 @@
 ﻿using LaLigaFans.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LaLigaFans.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> logger;
 
@@ -13,6 +14,7 @@ namespace LaLigaFans.Controllers
             logger = _logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

@@ -37,6 +37,12 @@ app.UseEndpoints(endpoints =>
 {
     //Add custom Maps for routing
 
+    
+    endpoints.MapControllerRoute(
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
 });
