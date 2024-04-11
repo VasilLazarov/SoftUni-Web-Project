@@ -1,4 +1,6 @@
-﻿using LaLigaFans.Infrastructure.Data;
+﻿using LaLigaFans.Core.Contracts.CartServices;
+using LaLigaFans.Core.Services.CartServices;
+using LaLigaFans.Infrastructure.Data;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //Add services to IoC conteiner
+            services.AddScoped<ICartService, CartService>();
+
 
 
             return services;

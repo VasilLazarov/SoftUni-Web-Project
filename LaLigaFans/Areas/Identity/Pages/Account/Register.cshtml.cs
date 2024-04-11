@@ -15,6 +15,7 @@ using System.Security.Claims;
 using static LaLigaFans.Core.Constants.ErrorMessages;
 using static LaLigaFans.Infrastructure.Constants.DataConstants;
 using static LaLigaFans.Infrastructure.Constants.CustomClaims;
+using LaLigaFans.Core.Contracts.CartServices;
 
 namespace LaLigaFans.Areas.Identity.Pages.Account
 {
@@ -26,13 +27,15 @@ namespace LaLigaFans.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ICartService _cartService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ICartService cartService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -40,6 +43,7 @@ namespace LaLigaFans.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _cartService = cartService;
         }
 
         /// <summary>
@@ -133,6 +137,9 @@ namespace LaLigaFans.Areas.Identity.Pages.Account
                     await _userManager.AddClaimAsync(user, new Claim(UserFullNameClaim, $"{user.FirstName} {user.LastName}"));
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    await _cartService.CreateAsync(userId);
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
