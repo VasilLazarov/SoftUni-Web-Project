@@ -15,9 +15,11 @@
 
         public const int TeamLogoUrlMaxLength = 256;
 
-        public const int TeamCoachName = 50;
+        public const int TeamCoachNameMaxLength = 50;
+        public const int TeamCoachNameMinLength = 3;
 
         public const int TeamInformationMaxLength = 2048;
+        public const int TeamInformationMinLength = 256;
 
         //Player data constants
         public const int PlayerFirstNameMaxLength = 50;

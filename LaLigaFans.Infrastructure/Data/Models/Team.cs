@@ -30,7 +30,7 @@ namespace LaLigaFans.Infrastructure.Data.Models
         public int FoundedYear { get; set; }
 
         [Required]
-        [MaxLength(TeamCoachName)]
+        [MaxLength(TeamCoachNameMaxLength)]
         [Comment("Team coach name")]
         public string CoachName { get; set; } = string.Empty;
 

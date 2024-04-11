@@ -1,5 +1,6 @@
 ﻿using LaLigaFans.Infrastructure.Data.Models;
 using LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds;
+using LaLigaFans.Infrastructure.Data.SeedDb.DataSeeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +64,13 @@ namespace LaLigaFans.Infrastructure.Data
             builder.ApplyConfiguration(new UserClaimsConfiguration());
             builder.ApplyConfiguration(new IdentityRolesConfiguration());
             builder.ApplyConfiguration(new UsersRolesConfiguration());
+
+            builder.ApplyConfiguration(new CartsConfiguration());
+            builder.ApplyConfiguration(new TeamsConfiguration());
+            builder.ApplyConfiguration(new PlayersConfiguration());
+            builder.ApplyConfiguration(new NewsConfiguration());
+            builder.ApplyConfiguration(new CategoriesConfiguration());
+            builder.ApplyConfiguration(new ProductsConfiguration());
 
 
             //Apply entity models configurations
