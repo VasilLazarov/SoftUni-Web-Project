@@ -135,6 +135,7 @@ namespace LaLigaFans.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.AddClaimAsync(user, new Claim(UserFullNameClaim, $"{user.FirstName} {user.LastName}"));
+                    await _userManager.AddToRoleAsync(user, "User");
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
