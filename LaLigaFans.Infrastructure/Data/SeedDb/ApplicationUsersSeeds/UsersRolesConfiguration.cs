@@ -10,7 +10,11 @@ namespace LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds
         {
             var seedData = new SeedApplicationUsers();
 
-            builder.HasData(seedData.AdminUserAdminRole, seedData.PublisherUserPublisherRole, seedData.OrdinaryUserUserRole);
+            builder.HasData(seedData.AdminUserAdminRole,
+                            seedData.AdminUserUserRole,
+                            seedData.PublisherUserPublisherRole, 
+                            seedData.PublisherUserUserRole,
+                            seedData.OrdinaryUserUserRole);
         }
     }
 }

@@ -15,6 +15,8 @@ namespace LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds
 
         public IdentityUserRole<string> AdminUserAdminRole { get; set; } = null!;
 
+        public IdentityUserRole<string> AdminUserUserRole { get; set; } = null!;
+
         public ApplicationUser PublisherUser { get; set; } = null!;
 
         public IdentityUserClaim<string> PublisherUserClaim { get; set; } = null!;
@@ -22,6 +24,8 @@ namespace LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds
         public IdentityRole PublisherRole { get; set; } = null!;
 
         public IdentityUserRole<string> PublisherUserPublisherRole { get; set; } = null!;
+
+        public IdentityUserRole<string> PublisherUserUserRole { get; set; } = null!;
 
         public ApplicationUser OrdinaryUser { get; set; } = null!;
 
@@ -145,10 +149,22 @@ namespace LaLigaFans.Infrastructure.Data.SeedDb.ApplicationUsersSeeds
                 RoleId = AdminRole.Id
             };
 
+            AdminUserUserRole = new IdentityUserRole<string>()
+            {
+                UserId = AdminUser.Id,
+                RoleId = UserRole.Id
+            };
+
             PublisherUserPublisherRole = new IdentityUserRole<string>()
             {
                 UserId = PublisherUser.Id,
                 RoleId = PublisherRole.Id
+            };
+
+            PublisherUserUserRole = new IdentityUserRole<string>()
+            {
+                UserId = PublisherUser.Id,
+                RoleId = UserRole.Id
             };
 
             OrdinaryUserUserRole = new IdentityUserRole<string>()
