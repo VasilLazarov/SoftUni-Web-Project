@@ -52,7 +52,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
 
                     b.HasComment("Address is a entity class");
                 });
@@ -206,7 +206,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUsersProducts");
+                    b.ToTable("ApplicationUsersProducts", (string)null);
 
                     b.HasComment("ApplicationUserProduct is a mapping table entity class");
                 });
@@ -225,7 +225,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUsersTeams");
+                    b.ToTable("ApplicationUsersTeams", (string)null);
 
                     b.HasComment("ApplicationUserTeam is a mapping table entity class");
                 });
@@ -249,7 +249,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
 
                     b.HasComment("Cart is a entity class");
 
@@ -285,7 +285,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartsProducts");
+                    b.ToTable("CartsProducts", (string)null);
 
                     b.HasComment("CartProduct is a mapping table entity class");
                 });
@@ -307,7 +307,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasComment("Category is a entity class");
 
@@ -390,7 +390,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
 
                     b.HasComment("Comment is a entity class");
                 });
@@ -449,7 +449,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
 
                     b.HasComment("News is a entity class");
 
@@ -546,7 +546,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
 
                     b.HasComment("Order is a entity class");
                 });
@@ -577,7 +577,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
 
                     b.HasComment("Payment is a entity class");
                 });
@@ -621,7 +621,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
 
                     b.HasComment("Player is a entity class");
 
@@ -820,7 +820,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasComment("Product is a entity class");
 
@@ -1173,7 +1173,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
 
                     b.HasComment("Question is a entity class");
                 });
@@ -1217,7 +1217,7 @@ namespace LaLigaFans.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
 
                     b.HasComment("Team is a entity class");
 

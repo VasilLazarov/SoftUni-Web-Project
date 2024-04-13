@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LaLigaFans.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class BaseController : Controller
     {
 

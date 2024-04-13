@@ -1,0 +1,39 @@
+﻿@model TeamServiceModel
+@inject ITeamService teamService
+
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3 d-flex">
+    <div class="card w-100 align-items-center border-dark">
+        <img class="card-img-top w-75 h-75 mt-3" src="~/img/teams/@Model.LogoUrl" alt="Team Image" />
+        
+        <div class="card-body text-center">
+            <h4>@Model.Name</h4>
+            <h6>Founded year: <b>@Model.FoundedYear</b></h6>
+            <h6>Coach name: <b>@Model.CoachName</b></h6>
+            <a asp-area="" asp-controller="Team" asp-action="Details" 
+            asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            @if(this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (User.IsAdmin())
+                {
+                    <a asp-area="Admin" asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-area="Admin" asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
+                <br />
+                <br />
+                if(await teamService.IsFollowedByUserWithIdAsync(Model.Id, User.Id()))
+                {
+                    <form asp-area="" asp-controller="Team" asp-action="Unfollow" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-lg btn-primary" type="submit" value="Unfollow" />
+                    </form>
+                }
+                else
+                {
+                    <form class="input-group-sm" asp-area="" asp-controller="Team" asp-action="Follow" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-lg btn-primary" type="submit" value="Follow" />
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</div>
+

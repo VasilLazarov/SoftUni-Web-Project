@@ -44,5 +44,11 @@ namespace LaLigaFans.Infrastructure.Data.Models
 
         public ICollection<ApplicationUserTeam> Followers { get; set; }
             = new HashSet<ApplicationUserTeam>();
+
+        public ICollection<News> News { get; set; }
+            = new HashSet<News>();
+
+        public ICollection<Product> Products { get; set; }
+            = new HashSet<Product>();
     }
 }

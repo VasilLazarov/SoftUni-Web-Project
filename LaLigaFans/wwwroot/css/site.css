@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+@media (min-width: 1600px)
+{
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 1520px;
+    }
+}
+@media (max-width: 575px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+        max-width: 470px;
+    }
+}

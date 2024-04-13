@@ -1,5 +1,9 @@
-﻿using LaLigaFans.Core.Contracts.CartServices;
+﻿using LaLigaFans.Core.Contracts.CartContracts;
+using LaLigaFans.Core.Contracts.PlayerContracts;
+using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Services.CartServices;
+using LaLigaFans.Core.Services.PlayerServices;
+using LaLigaFans.Core.Services.TeamServices;
 using LaLigaFans.Infrastructure.Data;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
@@ -14,6 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             //Add services to IoC conteiner
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<IPlayerService, PlayerService>();
 
 
 
