@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LaLigaFans.Core.Contracts.CartServices
+namespace LaLigaFans.Core.Contracts.CartContracts
 {
     public interface ICartService
     {

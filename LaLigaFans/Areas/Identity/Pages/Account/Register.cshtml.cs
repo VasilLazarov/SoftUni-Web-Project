@@ -15,7 +15,7 @@ using System.Security.Claims;
 using static LaLigaFans.Core.Constants.ErrorMessages;
 using static LaLigaFans.Infrastructure.Constants.DataConstants;
 using static LaLigaFans.Infrastructure.Constants.CustomClaims;
-using LaLigaFans.Core.Contracts.CartServices;
+using LaLigaFans.Core.Contracts.CartContracts;
 
 namespace LaLigaFans.Areas.Identity.Pages.Account
 {
