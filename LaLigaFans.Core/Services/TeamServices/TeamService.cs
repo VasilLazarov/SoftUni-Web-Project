@@ -1,4 +1,6 @@
-﻿using LaLigaFans.Core.Contracts.TeamContracts;
+﻿using LaLigaFans.Core.Contracts.OtherContracts;
+using LaLigaFans.Core.Contracts.TeamContracts;
+using LaLigaFans.Core.Models.Player;
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
@@ -10,10 +12,13 @@ namespace LaLigaFans.Core.Services.TeamServices
     public class TeamService : ITeamService
     {
         private readonly IRepository repository;
+        private readonly IUploadService uploadService;
 
-        public TeamService(IRepository _repository)
+        public TeamService(IRepository _repository,
+            IUploadService _uploadService)
         {
             repository = _repository;
+            uploadService = _uploadService;
         }
 
         public async Task<TeamsQueryServiceModel> AllAsync(
@@ -151,7 +156,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         {
             string logoUrl = model.ImageLogo.FileName;
             string folderName = "teams";
-            if(!await UploadImage(model.ImageLogo, folderName))
+            if(!await uploadService.UploadImage(model.ImageLogo, folderName))
             {
                 logoUrl = "Default.png";
             }
@@ -186,7 +191,7 @@ namespace LaLigaFans.Core.Services.TeamServices
                 {
                     string logoUrl = model.ImageLogo.FileName;
                     string folderName = "teams";
-                    if (!await UploadImage(model.ImageLogo, folderName))
+                    if (!await uploadService.UploadImage(model.ImageLogo, folderName))
                     {
                         logoUrl = "Default.png";
                     }
@@ -214,24 +219,16 @@ namespace LaLigaFans.Core.Services.TeamServices
             return teamModel;
         }
 
-
-        private async Task<bool> UploadImage(IFormFile image, string folderName)
+        public async Task<IEnumerable<PlayerTeamServiceModel>> GetTeamIdsAndNames()
         {
-            bool result = false;
-
-            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "img", folderName);
-
-            string fileName = Path.Combine(path, image.FileName);
-
-            using (var fileStream = new FileStream(fileName, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-                result = true;
-            }
-
-            return result;
+            return await repository.AllReadOnly<Team>()
+                .Select(t => new PlayerTeamServiceModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name
+                })
+                .ToListAsync();
         }
-
 
 
     }

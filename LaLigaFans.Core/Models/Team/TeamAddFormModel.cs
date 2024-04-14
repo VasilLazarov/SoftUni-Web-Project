@@ -13,7 +13,7 @@ namespace LaLigaFans.Core.Models.Team
             ErrorMessage = StringLengthErrorMessage)]
         public string Name { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = UploadImageErrorMessage)]
         [Display(Name = "Team Logo")]
         public IFormFile ImageLogo { get; set; } = null!;
 

@@ -18,7 +18,10 @@ namespace LaLigaFans.Core.Constants
 
         public const string RequiredMessage = "The field {0} is required";
         
-        public const string FileMessage = "You must upload an image";
+        public const string UploadImageErrorMessage = "You must upload an image";
+
+        public const string TeamErrorMessage = "Team does not exists!";
+
 
 
 

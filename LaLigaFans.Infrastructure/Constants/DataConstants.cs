@@ -32,7 +32,11 @@
         public const int PlayerLastNameMaxLength = 50;
         public const int PlayerLastNameMinLength = 3;
 
+        public const int PlayerAgeMax = 50;
+        public const int PlayerAgeMin = 16;
+
         public const int PlayerImageUrlMaxLength = 256;
+        public const int PlayerImageUrlMinLength = 4;
 
         //News data constants
         public const int NewsTitleMaxLength = 100;

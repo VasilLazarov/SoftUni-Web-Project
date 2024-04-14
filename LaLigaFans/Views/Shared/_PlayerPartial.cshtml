@@ -12,8 +12,8 @@
             {
                 if (User.IsAdmin())
                 {
-                    <a asp-area="Admin" asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                    <a asp-area="Admin" asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    <a asp-area="Admin" asp-controller="Player" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-area="Admin" asp-controller="Player" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
                 }
             }
         </div>
