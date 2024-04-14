@@ -36,5 +36,8 @@ namespace LaLigaFans.Infrastructure.Data.Models
         public ICollection<Order> Orders { get; set; }
             = new HashSet<Order>();
 
+        public ICollection<News> News { get; set; }
+            = new HashSet<News>();
+
     }
 }

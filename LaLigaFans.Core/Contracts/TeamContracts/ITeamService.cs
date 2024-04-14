@@ -32,6 +32,6 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
 
         Task<IEnumerable<PlayerTeamServiceModel>> GetTeamIdsAndNames();
 
-
+        Task<IEnumerable<string>> AllTeamNamesAsync();
     }
 }

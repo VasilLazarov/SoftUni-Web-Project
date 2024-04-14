@@ -4,7 +4,6 @@ using LaLigaFans.Core.Models.Player;
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaLigaFans.Core.Services.TeamServices
@@ -229,6 +228,18 @@ namespace LaLigaFans.Core.Services.TeamServices
                 })
                 .ToListAsync();
         }
+
+
+        public async Task<IEnumerable<string>> AllTeamNamesAsync()
+        {
+            var allTeamNames = await repository.AllReadOnly<Team>()
+                .Select(t => t.Name)
+                .Distinct()
+                .ToListAsync();
+
+            return allTeamNames;
+        }
+
 
 
     }

@@ -36,10 +36,10 @@ namespace LaLigaFans.Infrastructure.Data.Models
         public DateTime PublishedOn { get; set; }
 
         [Comment("Identifier of team the news is about")]
-        public int? TeamId { get; set; }
+        public int TeamId { get; set; }
 
         [ForeignKey(nameof(TeamId))]
-        public Team? Team { get; set; }
+        public Team Team { get; set; } = null!;
 
         [Required]
         [Comment("News owner identifier")]

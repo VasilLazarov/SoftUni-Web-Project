@@ -15,5 +15,10 @@ namespace System.Security.Claims
             return user.IsInRole(AdminRoleName);
         }
 
+        public static bool IsPublisher(this ClaimsPrincipal user)
+        {
+            return user.IsInRole("Publisher");
+        }
+
     }
 }
