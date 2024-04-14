@@ -2,6 +2,7 @@
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaLigaFans.Core.Services.TeamServices
@@ -99,6 +100,7 @@ namespace LaLigaFans.Core.Services.TeamServices
             }
 
         }
+        
         public async Task UnfollowAsync(int teamId, string userId)
         {
             var user = await repository.All<ApplicationUser>()
@@ -143,6 +145,47 @@ namespace LaLigaFans.Core.Services.TeamServices
             };
 
             return teamsAndCount;
+        }
+
+        public async Task<int> CreateAsync(TeamAddFormModel model)
+        {
+            string logoUrl = model.ImageLogo.FileName;
+            string folderName = "teams";
+            if(!await UploadImage(model.ImageLogo, folderName))
+            {
+                logoUrl = "Default.png";
+            }
+
+            var team = new Team()
+            {
+                Name = model.Name,
+                CoachName = model.CoachName,
+                FoundedYear = model.FoundedYear,
+                Information = model.Information,
+                LogoUrl = logoUrl
+            };
+
+            await repository.AddAsync(team);
+            await repository.SaveChangesAsync();
+
+            return team.Id;
+        }
+
+        private async Task<bool> UploadImage(IFormFile image, string folderName)
+        {
+            bool result = false;
+
+            string path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "img", folderName);
+
+            string fileName = Path.Combine(path, image.FileName);
+
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+                result = true;
+            }
+
+            return result;
         }
 
 

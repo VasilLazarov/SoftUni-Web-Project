@@ -22,5 +22,9 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
             string userId,
             int currentPage = 1,
             int housesPerPage = 1);
+
+        Task<int> CreateAsync(TeamAddFormModel model);
+
+
     }
 }

@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Security.Claims;
-using static LaLigaFans.Core.Constants.ErrorMessages;
+using static LaLigaFans.Core.Constants.MessageConstants;
 using static LaLigaFans.Infrastructure.Constants.DataConstants;
 using static LaLigaFans.Infrastructure.Constants.CustomClaims;
 using LaLigaFans.Core.Contracts.CartContracts;

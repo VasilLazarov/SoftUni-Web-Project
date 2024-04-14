@@ -1,8 +1,26 @@
 ﻿<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item dropdown">
+        <div>
+            <a class="btn dropdown-toggle" href="#" role="button" 
+                id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Add</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Team" asp-action="Add">Add Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Player" asp-action="Add">Add Player</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Add">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="News" asp-action="Add">Add News</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="All">Teams</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-danger">Admin Area</a>
     </li>
 </ul>

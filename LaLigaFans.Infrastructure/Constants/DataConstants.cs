@@ -14,6 +14,10 @@
         public const int TeamNameMinLength = 3;
 
         public const int TeamLogoUrlMaxLength = 256;
+        public const int TeamLogoUrlMinLength = 4;
+
+        public const int TeamFoundedYearMax = 2024;
+        public const int TeamFoundedYearMin = 1800;
 
         public const int TeamCoachNameMaxLength = 50;
         public const int TeamCoachNameMinLength = 3;
