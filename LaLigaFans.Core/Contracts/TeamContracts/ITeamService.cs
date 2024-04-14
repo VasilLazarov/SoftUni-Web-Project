@@ -25,6 +25,10 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
 
         Task<int> CreateAsync(TeamAddFormModel model);
 
+        Task EditAsync(int teamId, TeamEditFormModel model);
+
+        Task<TeamEditFormModel?> GetTeamEditFormModelByIdAsync(int houseId);
+
 
     }
 }

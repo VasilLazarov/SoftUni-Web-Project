@@ -171,6 +171,50 @@ namespace LaLigaFans.Core.Services.TeamServices
             return team.Id;
         }
 
+        public async Task EditAsync(int teamId, TeamEditFormModel model)
+        {
+            var team = await repository.GetByIdAsync<Team>(teamId);
+
+            if(team != null)
+            {
+                team.Name = model.Name;
+                team.CoachName = model.CoachName;
+                team.FoundedYear = model.FoundedYear;
+                team.Information = model.Information;
+
+                if(model.ImageLogo != null)
+                {
+                    string logoUrl = model.ImageLogo.FileName;
+                    string folderName = "teams";
+                    if (!await UploadImage(model.ImageLogo, folderName))
+                    {
+                        logoUrl = "Default.png";
+                    }
+                    team.LogoUrl = logoUrl;
+                }
+
+                await repository.SaveChangesAsync();
+            }
+
+        }
+
+        public async Task<TeamEditFormModel?> GetTeamEditFormModelByIdAsync(int teamId)
+        {
+            var teamModel = await repository.AllReadOnly<Team>()
+                .Where(t => t.Id == teamId)
+                .Select(t => new TeamEditFormModel()
+                {
+                    Name = t.Name,
+                    FoundedYear = t.FoundedYear,
+                    CoachName = t.CoachName,
+                    Information = t.Information
+                })
+                .FirstOrDefaultAsync();
+
+            return teamModel;
+        }
+
+
         private async Task<bool> UploadImage(IFormFile image, string folderName)
         {
             bool result = false;

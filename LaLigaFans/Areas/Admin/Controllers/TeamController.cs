@@ -31,7 +31,41 @@ namespace LaLigaFans.Areas.Admin.Controllers
 
             int newTeamId = await teamService.CreateAsync(model);
 
-            return RedirectToAction("All", "Team", new { area = "" });
+            return RedirectToAction("Details", "Team", new { area = "", id = newTeamId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if(await teamService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var teamModel = await teamService.GetTeamEditFormModelByIdAsync(id);
+
+            return View(teamModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, TeamEditFormModel model)
+        {
+            if (await teamService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await teamService.EditAsync(id, model);
+
+            return RedirectToAction("Details", "Team", new { area = "", id = id});
+        }
+
+
+
     }
 }

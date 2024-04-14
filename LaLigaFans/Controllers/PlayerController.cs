@@ -26,7 +26,10 @@ namespace LaLigaFans.Controllers
 
             query.TotalPlayersCount = queryResult.TotalPlayersCount;
             query.Players = queryResult.Players;
-            query.TeamName = query.Players.First().TeamName;
+            if(query.Players.Count() > 0)
+            {
+                query.TeamName = query.Players.First().TeamName;
+            }
 
             return View(query);
         }

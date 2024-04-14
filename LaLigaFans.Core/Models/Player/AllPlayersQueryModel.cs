@@ -8,7 +8,7 @@
 
         public int TotalPlayersCount { get; set; }
 
-        public string TeamName { get; set; } = null!;
+        public string TeamName { get; set; } = string.Empty;
 
         public IEnumerable<PlayerServiceModel> Players { get; set; }
             = new List<PlayerServiceModel>();

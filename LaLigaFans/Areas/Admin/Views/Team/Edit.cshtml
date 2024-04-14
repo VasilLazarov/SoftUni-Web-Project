@@ -1,0 +1,18 @@
+﻿@model TeamEditFormModel
+
+@{
+    ViewBag.Title = "Add Team";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<partial name="_TeamEditFormPartial" model="@Model"></partial>
+
+
+
+
+@section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+        <script src="~/js/ShowUploadImageName.js" asp-append-version="true"></script>
+}
