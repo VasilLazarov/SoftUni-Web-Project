@@ -13,5 +13,14 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
         Task<TeamDetailsServiceModel> TeamDetailsByIdAsync(int id);
 
         Task<bool> ExistsAsync(int id);
+
+        Task FollowAsync(int teamId, string userId);
+
+        Task UnfollowAsync(int teamId, string userId);
+
+        Task<TeamsQueryServiceModel> FollowedAsync(
+            string userId,
+            int currentPage = 1,
+            int housesPerPage = 1);
     }
 }
