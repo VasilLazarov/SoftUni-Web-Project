@@ -41,14 +41,6 @@ namespace LaLigaFans.Infrastructure.Data.Models
         public int UnitsAvailable { get; set; }
 
         [Required]
-        [Comment("Product likes")]
-        public int Likes { get; set; }
-
-        [Required]
-        [Comment("Product dislikes")]
-        public int DisLikes { get; set; }
-
-        [Required]
         [Comment("Product category identifier")]
         public int CategoryId { get; set; }
 

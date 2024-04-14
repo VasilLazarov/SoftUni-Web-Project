@@ -32,14 +32,6 @@ namespace LaLigaFans.Infrastructure.Data.Models
         public string Content { get; set; } = string.Empty;
 
         [Required]
-        [Comment("News likes")]
-        public int Likes { get; set; }
-
-        [Required]
-        [Comment("News dislikes")]
-        public int DisLikes { get; set; }
-
-        [Required]
         [Comment("News published date")]
         public DateTime PublishedOn { get; set; }
 
