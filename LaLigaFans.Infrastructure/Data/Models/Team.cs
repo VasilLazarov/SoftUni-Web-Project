@@ -39,6 +39,10 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [Comment("Team information")]
         public string Information { get; set; } = string.Empty;
 
+        [Required]
+        [Comment("Team is active or not active(soft deleted)")]
+        public bool IsActive { get; set; }
+
         public ICollection<Player> Players { get; set; }
             = new HashSet<Player>();
 

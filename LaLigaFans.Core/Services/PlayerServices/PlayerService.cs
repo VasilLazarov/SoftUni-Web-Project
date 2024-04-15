@@ -25,6 +25,7 @@ namespace LaLigaFans.Core.Services.PlayerServices
             int housesPerPage = 1)
         {
             var players = await repository.AllReadOnly<Player>()
+                .GetOnlyActivePlayers()
                 .Where(p => p.TeamId == id)
                 .Skip((currentPage - 1) * housesPerPage)
                 .Take(housesPerPage)
@@ -55,6 +56,7 @@ namespace LaLigaFans.Core.Services.PlayerServices
         public async Task<bool> ExistsAsync(int id)
         {
             bool result = await repository.AllReadOnly<Player>()
+                .GetOnlyActivePlayers()
                 .AnyAsync(p => p.Id == id);
 
             return result;
@@ -87,6 +89,7 @@ namespace LaLigaFans.Core.Services.PlayerServices
         public async Task<PlayerEditFormModel?> GetPlayerEditFormModelByIdAsync(int playerId)
         {
             var playerModel = await repository.AllReadOnly<Player>()
+                .GetOnlyActivePlayers()
                 .Where(p => p.Id == playerId)
                 .Select(p => new PlayerEditFormModel()
                 {

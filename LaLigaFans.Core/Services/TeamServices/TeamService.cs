@@ -24,6 +24,7 @@ namespace LaLigaFans.Core.Services.TeamServices
             int housesPerPage = 1)
         {
             var teams = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Skip((currentPage - 1) * housesPerPage)
                 .Take(housesPerPage)
                 .ProjectToTeamServiceModel()
@@ -44,6 +45,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         {
             bool result = false;
             var team = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Where(t => t.Id == teamId)
                 .Include(t => t.Followers)
                 .FirstOrDefaultAsync();
@@ -59,6 +61,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<TeamDetailsServiceModel> TeamDetailsByIdAsync(int id)
         {
             var teamWithDetails = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Where(t => t.Id == id)
                 .Select(t => new TeamDetailsServiceModel()
                 {
@@ -77,6 +80,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<bool> ExistsAsync(int id)
         {
             bool result = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .AnyAsync(t => t.Id == id);
 
             return result;
@@ -131,6 +135,7 @@ namespace LaLigaFans.Core.Services.TeamServices
             int housesPerPage = 1)
         {
             var teams = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Where(t => t.Followers.Any(ut => ut.ApplicationUserId == userId))
                 .Skip((currentPage - 1) * housesPerPage)
                 .Take(housesPerPage)
@@ -138,6 +143,7 @@ namespace LaLigaFans.Core.Services.TeamServices
                 .ToListAsync();
 
             var totalTeams = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Where(t => t.Followers.Any(ut => ut.ApplicationUserId == userId))
                 .CountAsync();
 
@@ -204,6 +210,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<TeamEditFormModel?> GetTeamEditFormModelByIdAsync(int teamId)
         {
             var teamModel = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Where(t => t.Id == teamId)
                 .Select(t => new TeamEditFormModel()
                 {
@@ -220,6 +227,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<IEnumerable<TeamBasicServiceModel>> GetTeamIdsAndNames()
         {
             return await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Select(t => new TeamBasicServiceModel()
                 {
                     Id = t.Id,
@@ -232,6 +240,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<IEnumerable<string>> AllTeamNamesAsync()
         {
             var allTeamNames = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
                 .Select(t => t.Name)
                 .Distinct()
                 .ToListAsync();

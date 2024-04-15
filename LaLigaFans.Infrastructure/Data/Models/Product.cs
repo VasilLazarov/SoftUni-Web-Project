@@ -54,6 +54,10 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [ForeignKey(nameof(TeamId))]
         public Team Team { get; set; } = null!;
 
+        [Required]
+        [Comment("Product is active or not active(soft deleted)")]
+        public bool IsActive { get; set; }
+
         public ICollection<CartProduct> CartsProducts { get; set; }
             = new HashSet<CartProduct>();
 

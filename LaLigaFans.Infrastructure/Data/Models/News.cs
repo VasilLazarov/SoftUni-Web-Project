@@ -48,6 +48,10 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [ForeignKey(nameof(OwnerId))]
         public ApplicationUser Owner { get; set; } = null!;
 
+        [Required]
+        [Comment("News is active or not active(soft deleted)")]
+        public bool IsActive { get; set; }
+
         public ICollection<Comment> Comments { get; set; }
             = new HashSet<Comment>();
     }

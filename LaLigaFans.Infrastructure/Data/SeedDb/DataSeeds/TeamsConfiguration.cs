@@ -8,6 +8,10 @@ namespace LaLigaFans.Infrastructure.Data.SeedDb.DataSeeds
     {
         public void Configure(EntityTypeBuilder<Team> builder)
         {
+            builder
+                .Property(t => t.IsActive)
+                .HasDefaultValue(true);
+
             var data = new SeedData();
 
             builder

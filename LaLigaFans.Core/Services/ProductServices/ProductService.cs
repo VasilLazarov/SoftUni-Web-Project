@@ -2,11 +2,9 @@
 using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.Products;
-using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 
 namespace LaLigaFans.Core.Services.ProductServices
 {
@@ -33,7 +31,8 @@ namespace LaLigaFans.Core.Services.ProductServices
             int currentPage = 1,
             int productsPerPage = 1)
         {
-            var productsQuery = repository.AllReadOnly<Product>();
+            var productsQuery = repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts();
 
             if (!string.IsNullOrEmpty(category))
             {
@@ -105,6 +104,7 @@ namespace LaLigaFans.Core.Services.ProductServices
         public async Task<bool> ExistAsync(int id)
         {
             var result = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
                 .AnyAsync(p => p.Id == id);
 
             return result;
@@ -113,6 +113,7 @@ namespace LaLigaFans.Core.Services.ProductServices
         public async Task<ProductDetailsServiceModel> ProductDetailsByIdAsync(int id)
         {
             var productWithDetails = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
                 .Where(p => p.Id == id)
                 .Select(p => new ProductDetailsServiceModel()
                 {
@@ -135,6 +136,7 @@ namespace LaLigaFans.Core.Services.ProductServices
             int productsPerPage = 1)
         {
             var products = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
                 .Where(p => p.UsersFavorite.Any(uf => uf.ApplicationUserId == userId))
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
@@ -206,6 +208,7 @@ namespace LaLigaFans.Core.Services.ProductServices
         {
             bool result = false;
             var product = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
                 .Where(p => p.Id == productId)
                 .Include(p => p.UsersFavorite)
                 .FirstOrDefaultAsync();
@@ -265,6 +268,7 @@ namespace LaLigaFans.Core.Services.ProductServices
         public async Task<ProductEditFormModel?> GetProductEditFormModelByIdAsync(int productId)
         {
             var productModel = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
                 .Where(p => p.Id == productId)
                 .Select(p => new ProductEditFormModel()
                 {

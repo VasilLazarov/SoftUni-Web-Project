@@ -31,7 +31,8 @@ namespace LaLigaFans.Core.Services.NewsServices
             int currentPage = 1,
             int newsPerPage = 1)
         {
-            var newsQuery = repository.AllReadOnly<News>();
+            var newsQuery = repository.AllReadOnly<News>()
+                .GetOnlyActiveNews();
 
             if (!string.IsNullOrEmpty(team))
             {
@@ -85,6 +86,7 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<bool> HasPublisherWithIdAsync(int newsId, string userId)
         {
             return await repository.AllReadOnly<News>()
+                .GetOnlyActiveNews()
                 .AnyAsync(n => n.Id == newsId &&
                                n.Owner.Id == userId);
         }
@@ -92,6 +94,7 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<bool> ExistsAsync(int id)
         {
             bool result = await repository.AllReadOnly<News>()
+                .GetOnlyActiveNews()
                 .AnyAsync(n => n.Id == id);
 
             return result;
@@ -100,6 +103,7 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<NewsDetailsServiceModel> NewsDetailsByIdAsync(int id)
         {
             var teamWithDetails = await repository.AllReadOnly<News>()
+                .GetOnlyActiveNews()
                 .Where(n => n.Id == id)
                 .Select(n => new NewsDetailsServiceModel()
                 {
@@ -143,6 +147,7 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<NewsEditFormModel?> GetNewsEditFormModelByIdAsync(int newsId)
         {
             var newsModel = await repository.AllReadOnly<News>()
+                .GetOnlyActiveNews()
                 .Where(n => n.Id == newsId)
                 .Select(n => new NewsEditFormModel()
                 {
