@@ -248,6 +248,54 @@ namespace LaLigaFans.Core.Services.TeamServices
             return allTeamNames;
         }
 
+        public async Task DeleteAsync(int teamId)
+        {
+            var team = await repository.All<Team>()
+                .GetOnlyActiveTeams()
+                .Where(t => t.Id == teamId)
+                .Include(t => t.Players)
+                .Include(t => t.News)
+                .Include(t => t.Products)
+                .FirstOrDefaultAsync();
+
+            if(team != null)
+            {
+                team.IsActive = false;
+                foreach (var p in team.Players)
+                {
+                    p.IsActive = false;
+                }
+                foreach (var n in team.News)
+                {
+                    n.IsActive = false;
+                }
+                foreach (var p in team.Products)
+                {
+                    p.IsActive = false;
+                }
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<TeamDeleteServiceModel?> GetTeamDeleteServiceModelByIdAsync(int teamId)
+        {
+            var teamModel = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .Where(t => t.Id == teamId)
+                .Select(t => new TeamDeleteServiceModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    CoachName = t.CoachName,
+                    FoundedYear = t.FoundedYear,
+                    Information = t.Information,
+                    LogoUrl = t.LogoUrl
+                })
+                .FirstOrDefaultAsync();
+
+            return teamModel;
+        }
 
 
     }

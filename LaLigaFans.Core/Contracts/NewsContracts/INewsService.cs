@@ -1,5 +1,6 @@
 ﻿using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.News;
+using LaLigaFans.Core.Models.Player;
 
 namespace LaLigaFans.Core.Contracts.NewsContracts
 {
@@ -24,6 +25,11 @@ namespace LaLigaFans.Core.Contracts.NewsContracts
         Task<NewsEditFormModel?> GetNewsEditFormModelByIdAsync(int newsId);
 
         Task EditAsync(int newsId, NewsEditFormModel model);
+
+        Task DeleteAsync(int newsId);
+
+        Task<NewsDeleteServiceModel?> GetNewsDeleteServiceModelByIdAsync(int newsId);
+
 
     }
 }

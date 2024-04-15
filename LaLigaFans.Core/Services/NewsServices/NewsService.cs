@@ -184,7 +184,37 @@ namespace LaLigaFans.Core.Services.NewsServices
             }
         }
 
+        public async Task DeleteAsync(int newsId)
+        {
+            var news = await repository.GetByIdAsync<News>(newsId);
 
+            if(news != null)
+            {
+                news.IsActive = false;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<NewsDeleteServiceModel?> GetNewsDeleteServiceModelByIdAsync(int newsId)
+        {
+            var newsModel = await repository.AllReadOnly<News>()
+                .GetOnlyActiveNews()
+                .Where(n => n.Id == newsId)
+                .Select(n => new NewsDeleteServiceModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ImageUrl = n.ImageURL,
+                    TeamName = n.Team.Name,
+                    PublishedOn = n.PublishedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    Owner = n.Owner.FirstName + " " + n.Owner.LastName
+                })
+                .FirstOrDefaultAsync();
+
+            return newsModel;
+        }
 
 
     }

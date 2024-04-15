@@ -18,5 +18,9 @@ namespace LaLigaFans.Core.Contracts.PlayerContracts
 
         Task EditAsync(int playerId, PlayerEditFormModel model);
 
+        Task DeleteAsync(int playerId);
+
+        Task<PlayerDeleteServiceModel?> GetPlayerDeleteServiceModelByIdAsync(int playerId);
+
     }
 }

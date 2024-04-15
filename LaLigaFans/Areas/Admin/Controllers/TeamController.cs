@@ -1,5 +1,7 @@
 ﻿using LaLigaFans.Core.Contracts.TeamContracts;
+using LaLigaFans.Core.Models.Products;
 using LaLigaFans.Core.Models.Team;
+using LaLigaFans.Core.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaLigaFans.Areas.Admin.Controllers
@@ -65,6 +67,31 @@ namespace LaLigaFans.Areas.Admin.Controllers
             return RedirectToAction("Details", "Team", new { area = "", id = id});
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await teamService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var teamModel = await teamService.GetTeamDeleteServiceModelByIdAsync(id);
+
+            return View(teamModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(TeamDeleteServiceModel model)
+        {
+            if (await teamService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await teamService.DeleteAsync(model.Id);
+
+            return RedirectToAction("All", "Team", new { area = "" });
+        }
 
 
     }

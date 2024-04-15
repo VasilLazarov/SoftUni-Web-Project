@@ -311,7 +311,38 @@ namespace LaLigaFans.Core.Services.ProductServices
             }
         }
 
+        public async Task DeleteAsync(int productId)
+        {
+            var product = await repository.GetByIdAsync<Product>(productId);
 
+            if(product != null)
+            {
+                product.IsActive = false;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<ProductDeleteServiceModel?> GetProductDeleteServiceModelByIdAsync(int productId)
+        {
+            var productModel = await repository.AllReadOnly<Product>()
+                .GetOnlyActiveProducts()
+                .Where(p => p.Id == productId)
+                .Select(p => new ProductDeleteServiceModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    UnitsAvailable = p.UnitsAvailable,
+                    ImageUrl = p.ImageURL,
+                    CategoryName = p.Category.Name,
+                    TeamName = p.Team.Name
+                })
+                .FirstOrDefaultAsync();
+
+            return productModel;
+        }
 
 
     }

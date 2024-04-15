@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using LaLigaFans.Core.Models.Products;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using static LaLigaFans.Core.Constants.MessageConstants;
+using Microsoft.AspNetCore.Identity;
 
 namespace LaLigaFans.Areas.Admin.Controllers
 {
@@ -104,6 +105,32 @@ namespace LaLigaFans.Areas.Admin.Controllers
             await productService.EditAsync(id, model);
 
             return RedirectToAction("Details", "Product", new { area = "", id = id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await productService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var productModel = await productService.GetProductDeleteServiceModelByIdAsync(id);
+
+            return View(productModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductDeleteServiceModel model)
+        {
+            if (await productService.ExistAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await productService.DeleteAsync(model.Id);
+
+            return RedirectToAction("All", "Product", new { area = "" });
         }
 
 

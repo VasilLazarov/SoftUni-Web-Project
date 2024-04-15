@@ -90,6 +90,31 @@ namespace LaLigaFans.Areas.Admin.Controllers
             return RedirectToAction("All", "Player", new { area = "", id = model.TeamId });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await playerService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var playerModel = await playerService.GetPlayerDeleteServiceModelByIdAsync(id);
+
+            return View(playerModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int teamId, PlayerDeleteServiceModel model)
+        {
+            if (await playerService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await playerService.DeleteAsync(model.Id);
+
+            return RedirectToAction("All", "Player", new { area = "", id = teamId });
+        }
 
 
     }

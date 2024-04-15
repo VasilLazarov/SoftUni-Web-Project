@@ -130,6 +130,39 @@ namespace LaLigaFans.Core.Services.PlayerServices
 
         }
 
+        public async Task DeleteAsync(int playerId)
+        {
+            var player = await repository.GetByIdAsync<Player>(playerId);
+            
+            if(player != null)
+            {
+                player.IsActive = false;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<PlayerDeleteServiceModel?> GetPlayerDeleteServiceModelByIdAsync(int playerId)
+        {
+            var playerModel = await repository.AllReadOnly<Player>()
+                .GetOnlyActivePlayers()
+                .Where(p => p.Id == playerId)
+                .Select(p => new PlayerDeleteServiceModel()
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Age = p.Age,
+                    ImageUrl = p.PlayerImageUrl,
+                    TeamName = p.Team.Name,
+                    TeamId = p.Team.Id,
+                })
+                .FirstOrDefaultAsync();
+
+            return playerModel;
+        }
+
+
 
     }
 }

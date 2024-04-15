@@ -1,4 +1,5 @@
 ﻿using LaLigaFans.Core.Contracts.PlayerContracts;
+using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Models.Player;
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Core.Services.TeamServices;
@@ -11,14 +12,24 @@ namespace LaLigaFans.Controllers
     {
         private readonly IPlayerService playerService;
 
-        public PlayerController(IPlayerService _playerService)
+        private readonly ITeamService teamService;
+
+        public PlayerController(
+            IPlayerService _playerService,
+            ITeamService _teamService)
         {
             playerService = _playerService;
+            teamService = _teamService;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> All(int id, [FromQuery] AllPlayersQueryModel query)
         {
+            if (await teamService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }   
+
             var queryResult = await playerService.AllPlayersByTeamIdAsync(
                 id,
                 query.CurrentPage,

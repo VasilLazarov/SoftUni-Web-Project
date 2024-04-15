@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static LaLigaFans.Core.Constants.RoleNamesConstants;
 using static LaLigaFans.Core.Constants.MessageConstants;
+using LaLigaFans.Core.Services.PlayerServices;
 
 
 namespace LaLigaFans.Controllers
@@ -151,6 +152,46 @@ namespace LaLigaFans.Controllers
             await newsService.EditAsync(id, model);
 
             return RedirectToAction(nameof(Details), new { area = "", id = id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await newsService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.Id();
+
+            if (!User.IsAdmin() && (await newsService.HasPublisherWithIdAsync(id, userId) == false))
+            {
+                return Unauthorized();
+            }
+
+            var newsModel = await newsService.GetNewsDeleteServiceModelByIdAsync(id);
+
+            return View(newsModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(NewsDeleteServiceModel model)
+        {
+            if (await newsService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.Id();
+
+            if (!User.IsAdmin() && (await newsService.HasPublisherWithIdAsync(model.Id, userId) == false))
+            {
+                return Unauthorized();
+            }
+
+            await newsService.DeleteAsync(model.Id);
+
+            return RedirectToAction(nameof(All));
         }
 
 
