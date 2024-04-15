@@ -5,7 +5,6 @@ namespace LaLigaFans.Core.Contracts.NewsContracts
 {
     public interface INewsService
     {
-
         Task<NewsQueryServiceModel> AllAsync(
             string userId,
             string? team = null,

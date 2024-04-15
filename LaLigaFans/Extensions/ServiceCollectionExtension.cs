@@ -2,11 +2,13 @@
 using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Contracts.PlayerContracts;
+using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Services.CartServices;
 using LaLigaFans.Core.Services.NewsServices;
 using LaLigaFans.Core.Services.OtherServices;
 using LaLigaFans.Core.Services.PlayerServices;
+using LaLigaFans.Core.Services.ProductServices;
 using LaLigaFans.Core.Services.TeamServices;
 using LaLigaFans.Infrastructure.Data;
 using LaLigaFans.Infrastructure.Data.Comman;
@@ -26,6 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IUploadService, UploadService>();
             services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<IProductService, ProductService>();
 
 
 

@@ -67,6 +67,12 @@
 
         public const int ProductImageUrlMaxLength = 256;
 
+        public const string ProductPriceMax = "200.00";
+        public const string ProductPriceMin = "0.00";
+
+        public const int ProductUnitsAvailableMax = 1000;
+        public const int ProductUnitsAvailableMin = 0;
+
         //Address data constants
         public const int AddressCityMaxName = 30;
         public const int AddressCityMinName = 3;

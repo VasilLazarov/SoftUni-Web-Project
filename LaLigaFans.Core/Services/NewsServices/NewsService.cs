@@ -2,13 +2,10 @@
 using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.News;
-using LaLigaFans.Core.Services.OtherServices;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 
 namespace LaLigaFans.Core.Services.NewsServices
 {

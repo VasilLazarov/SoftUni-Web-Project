@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LaLigaFans.Core.Constants
+﻿namespace LaLigaFans.Core.Constants
 {
     public static class MessageConstants
     {
@@ -22,6 +16,9 @@ namespace LaLigaFans.Core.Constants
 
         public const string TeamErrorMessage = "Team does not exists!";
 
+        public const string CategoryErrorMessage = "Category does not exists!";
+
+        public const string RangeMessage = "{0} must be a positive number and less than {2} BGN";
 
 
 

@@ -1,0 +1,50 @@
+﻿@model ProductDetailsServiceModel
+@inject IProductService productService
+
+@{
+    ViewBag.Title = "Team Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-md-4 offset-md-1 text-center">
+            <img class="card-img-top w-100 h-100" src="~/img/products/@Model.ImageUrl" alt="Team Image">
+        </div>
+        <div class="card col-md-6 border-0">
+            <h3 class="pb-2"><b>@Model.Name</b></h3>
+            <p style="font-size:1.1rem;text-align:justify">@Model.Description</p>
+            <p style="font-size:1.1rem">Units available: <b>@Model.UnitsAvailable</b></p>
+            <p style="font-size:1.1rem">Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></p>
+            <div class="form-inline text-center">
+                @if (this.User?.Identity?.IsAuthenticated ?? false)
+                {
+                    if (User.IsAdmin())
+                    {
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    <p></p>
+                    if (await productService.IsFavoriteOfUserWithIdAsync(Model.Id, User.Id()))
+                    {
+                        <form asp-area="" asp-controller="Product" asp-action="RemoveFavorite" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Remove from favorites" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-area="" asp-controller="Product" asp-action="AddFavorite" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Add to favorites" />
+                        </form>
+                    }
+                    <p></p>
+                    <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-lg btn-primary" type="submit" value="Add to cart" />
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -15,8 +15,19 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Followed">Followed Teams</a>
+    <li class="nav-item dropdown">
+        <div>
+            <a class="btn dropdown-toggle" href="#" role="button" 
+            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Favorites</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Followed">Followed Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Favorites">Favorite Products</a>
+                </li>
+            </ul>
+        </div>
     </li>
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @fullName!</a>

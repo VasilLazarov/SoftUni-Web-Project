@@ -7,7 +7,6 @@
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
-<span class="d-none" id="team-id">@Model.Id</span>
 <div class="container" style="display:inline">
     <div class="row">
         <div class="col-md-4">
@@ -15,7 +14,7 @@
         </div>
         <div class="card col-md-8 border-0">
             <h3 class="pb-2"><b>@Model.Name</b></h3>
-            <p style="font-size:1.1rem">Founded year: <b>@Model.FoundedYear</b></pstyle>
+            <p style="font-size:1.1rem">Founded year: <b>@Model.FoundedYear</b></p>
             <p style="font-size:1.1rem">Coach name: <b>@Model.CoachName</b></p>
             <p style="font-size:1.2rem;text-align:justify">@Model.Information</p>
             <div class="form-inline text-center">

@@ -43,7 +43,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<bool> IsFollowedByUserWithIdAsync(int teamId, string userId)
         {
             bool result = false;
-            var team = await repository.All<Team>()
+            var team = await repository.AllReadOnly<Team>()
                 .Where(t => t.Id == teamId)
                 .Include(t => t.Followers)
                 .FirstOrDefaultAsync();
