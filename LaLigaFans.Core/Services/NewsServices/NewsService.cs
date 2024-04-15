@@ -1,8 +1,11 @@
 ﻿using LaLigaFans.Core.Contracts.NewsContracts;
+using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.News;
+using LaLigaFans.Core.Services.OtherServices;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
@@ -13,9 +16,14 @@ namespace LaLigaFans.Core.Services.NewsServices
     {
         private readonly IRepository repository;
 
-        public NewsService(IRepository _repository)
+        private readonly IUploadService uploadService;
+
+        public NewsService(
+            IRepository _repository,
+            IUploadService _uploadService)
         {
             repository = _repository;
+            uploadService = _uploadService;
         }
 
         public async Task<NewsQueryServiceModel> AllAsync(
@@ -59,7 +67,6 @@ namespace LaLigaFans.Core.Services.NewsServices
                 {
                     Id = n.Id,
                     Title = n.Title,
-                    Content = n.Content,
                     ImageUrl = n.ImageURL,
                     Owner = n.Owner.FirstName + " " +n.Owner.LastName,
                     PublishedOn = n.PublishedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
@@ -84,6 +91,97 @@ namespace LaLigaFans.Core.Services.NewsServices
                 .AnyAsync(n => n.Id == newsId &&
                                n.Owner.Id == userId);
         }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            bool result = await repository.AllReadOnly<News>()
+                .AnyAsync(n => n.Id == id);
+
+            return result;
+        }
+
+        public async Task<NewsDetailsServiceModel> NewsDetailsByIdAsync(int id)
+        {
+            var teamWithDetails = await repository.AllReadOnly<News>()
+                .Where(n => n.Id == id)
+                .Select(n => new NewsDetailsServiceModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    ImageUrl = n.ImageURL,
+                    Content = n.Content,
+                    PublishedOn = n.PublishedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    Owner = n.Owner.FirstName + " " + n.Owner.LastName
+                })
+                .FirstAsync();
+
+            return teamWithDetails;
+        }
+
+        public async Task<int> CreateAsync(NewsAddFormModel model, string userId)
+        {
+            string imageUrl = model.Image.FileName;
+            string folderName = "news";
+            if (!await uploadService.UploadImage(model.Image, folderName))
+            {
+                imageUrl = "Default.png";
+            }
+
+            var news = new News()
+            {
+                Title = model.Title,
+                Content = model.Content,
+                TeamId = model.TeamId,
+                ImageURL = imageUrl,
+                OwnerId = userId,
+                PublishedOn = DateTime.Now
+            };
+
+            await repository.AddAsync(news);
+            await repository.SaveChangesAsync();
+
+            return news.Id;
+        }
+
+        public async Task<NewsEditFormModel?> GetNewsEditFormModelByIdAsync(int newsId)
+        {
+            var newsModel = await repository.AllReadOnly<News>()
+                .Where(n => n.Id == newsId)
+                .Select(n => new NewsEditFormModel()
+                {
+                    Title = n.Title,
+                    Content = n.Content,
+                    TeamId = n.TeamId
+                })
+                .FirstOrDefaultAsync();
+
+            return newsModel;
+        }
+
+        public async Task EditAsync(int newsId, NewsEditFormModel model)
+        {
+            var news = await repository.GetByIdAsync<News>(newsId);
+
+            if(news != null)
+            {
+                news.Title = model.Title;
+                news.Content = model.Content;
+                news.TeamId = model.TeamId;
+
+                if(model.Image != null)
+                {
+                    string imageUrl = model.Image.FileName;
+                    string folderName = "news";
+                    if (!await uploadService.UploadImage(model.Image, folderName))
+                    {
+                        imageUrl = "Default.png";
+                    }
+                    news.ImageURL = imageUrl;
+                }
+                await repository.SaveChangesAsync();
+            }
+        }
+
 
 
 

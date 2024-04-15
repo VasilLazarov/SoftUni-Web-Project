@@ -1,6 +1,6 @@
-﻿namespace LaLigaFans.Core.Models.Player
+﻿namespace LaLigaFans.Core.Models.Team
 {
-    public class PlayerTeamServiceModel
+    public class TeamBasicServiceModel
     {
         public int Id { get; set; }
 

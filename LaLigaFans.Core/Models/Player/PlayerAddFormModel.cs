@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LaLigaFans.Core.Models.Team;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using static LaLigaFans.Core.Constants.MessageConstants;
 using static LaLigaFans.Infrastructure.Constants.DataConstants;
@@ -35,7 +36,7 @@ namespace LaLigaFans.Core.Models.Player
         [Display(Name = "Team")]
         public int TeamId { get; set; }
 
-        public IEnumerable<PlayerTeamServiceModel> Teams { get; set; }
-            = new List<PlayerTeamServiceModel>();
+        public IEnumerable<TeamBasicServiceModel> Teams { get; set; }
+            = new List<TeamBasicServiceModel>();
     }
 }

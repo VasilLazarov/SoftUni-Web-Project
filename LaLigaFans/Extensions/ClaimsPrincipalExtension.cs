@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static LaLigaFans.Infrastructure.Constants.AdminConstants;
+using static LaLigaFans.Core.Constants.RoleNamesConstants;
 
 namespace System.Security.Claims
 {
@@ -17,7 +17,7 @@ namespace System.Security.Claims
 
         public static bool IsPublisher(this ClaimsPrincipal user)
         {
-            return user.IsInRole("Publisher");
+            return user.IsInRole(PublisherRoleName);
         }
 
     }

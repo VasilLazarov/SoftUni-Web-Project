@@ -10,16 +10,15 @@
 <span class="d-none" id="team-id">@Model.Id</span>
 <div class="container" style="display:inline">
     <div class="row">
-        <div class="col-4">
-            <img class="card-img-top" style="width: 20rem;"
-                 src="~/img/teams/@Model.LogoUrl" alt="Team Image">
+        <div class="col-md-4">
+            <img class="card-img-top" src="~/img/teams/@Model.LogoUrl" alt="Team Image">
         </div>
-        <div class="card col-8 border-0">
-            <p style="font-size:25px;"><u>@Model.Name</u></p>
-            <p>Founded year: <b>@Model.FoundedYear</b></p>
-            <p>Coach name: <b>@Model.CoachName</b></p>
-            <p>@Model.Information</p>
-            <div class="form-inline">
+        <div class="card col-md-8 border-0">
+            <h3 class="pb-2"><b>@Model.Name</b></h3>
+            <p style="font-size:1.1rem">Founded year: <b>@Model.FoundedYear</b></pstyle>
+            <p style="font-size:1.1rem">Coach name: <b>@Model.CoachName</b></p>
+            <p style="font-size:1.2rem;text-align:justify">@Model.Information</p>
+            <div class="form-inline text-center">
 
                 @if (this.User?.Identity?.IsAuthenticated ?? false)
                 {

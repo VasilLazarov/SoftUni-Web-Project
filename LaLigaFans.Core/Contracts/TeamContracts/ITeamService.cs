@@ -1,5 +1,4 @@
-﻿using LaLigaFans.Core.Models.Player;
-using LaLigaFans.Core.Models.Team;
+﻿using LaLigaFans.Core.Models.Team;
 
 namespace LaLigaFans.Core.Contracts.TeamContracts
 {
@@ -30,7 +29,7 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
 
         Task<TeamEditFormModel?> GetTeamEditFormModelByIdAsync(int houseId);
 
-        Task<IEnumerable<PlayerTeamServiceModel>> GetTeamIdsAndNames();
+        Task<IEnumerable<TeamBasicServiceModel>> GetTeamIdsAndNames();
 
         Task<IEnumerable<string>> AllTeamNamesAsync();
     }

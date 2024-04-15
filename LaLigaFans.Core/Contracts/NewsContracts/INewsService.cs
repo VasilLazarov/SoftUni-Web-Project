@@ -16,5 +16,15 @@ namespace LaLigaFans.Core.Contracts.NewsContracts
 
         Task<bool> HasPublisherWithIdAsync(int newsId, string userId);
 
+        Task<int> CreateAsync(NewsAddFormModel model, string userId);
+
+        Task<bool> ExistsAsync(int id);
+
+        Task<NewsDetailsServiceModel> NewsDetailsByIdAsync(int id);
+
+        Task<NewsEditFormModel?> GetNewsEditFormModelByIdAsync(int newsId);
+
+        Task EditAsync(int newsId, NewsEditFormModel model);
+
     }
 }

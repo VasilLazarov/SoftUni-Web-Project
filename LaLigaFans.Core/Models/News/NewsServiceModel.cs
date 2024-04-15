@@ -16,8 +16,6 @@ namespace LaLigaFans.Core.Models.News
         [Display(Name = "Image URL")]
         public string ImageUrl { get; set; } = null!;
 
-        public string Content { get; set; } = null!;
-
         [Display(Name = "Published on")]
         public string PublishedOn { get; set; } = null!;
 

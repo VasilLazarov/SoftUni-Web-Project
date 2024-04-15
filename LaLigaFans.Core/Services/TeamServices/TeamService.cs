@@ -1,6 +1,5 @@
 ﻿using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
-using LaLigaFans.Core.Models.Player;
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
@@ -218,10 +217,10 @@ namespace LaLigaFans.Core.Services.TeamServices
             return teamModel;
         }
 
-        public async Task<IEnumerable<PlayerTeamServiceModel>> GetTeamIdsAndNames()
+        public async Task<IEnumerable<TeamBasicServiceModel>> GetTeamIdsAndNames()
         {
             return await repository.AllReadOnly<Team>()
-                .Select(t => new PlayerTeamServiceModel()
+                .Select(t => new TeamBasicServiceModel()
                 {
                     Id = t.Id,
                     Name = t.Name

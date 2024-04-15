@@ -57,6 +57,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
             }
 
             var playerModel = await playerService.GetPlayerEditFormModelByIdAsync(id);
+            
             if(playerModel != null)
             {
                 playerModel.Teams = await teamService.GetTeamIdsAndNames();
