@@ -50,6 +50,7 @@ namespace LaLigaFans.Core.Services.CommentServices
             int newsId)
         {
             var comments = await repository.AllReadOnly<Comment>()
+                .GetOnlyActiveComments()
                 .Where(c => c.NewsId == newsId)
                 .OrderByDescending(c => c.Id)
                 .Take(2)
@@ -71,6 +72,7 @@ namespace LaLigaFans.Core.Services.CommentServices
             int productId)
         {
             var comments = await repository.AllReadOnly<Comment>()
+                .GetOnlyActiveComments()
                 .Where(c => c.ProductId == productId)
                 .OrderByDescending(c => c.Id)
                 .Take(2)

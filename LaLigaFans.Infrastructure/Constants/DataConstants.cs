@@ -48,7 +48,7 @@
         public const int NewsContentMinLength = 512;
 
         //Comment data constants
-        public const int CommentTitleMaxLength = 20;
+        public const int CommentTitleMaxLength = 50;
         public const int CommentTitleMinLength = 3;
 
         public const int CommentContentMaxLength = 128;

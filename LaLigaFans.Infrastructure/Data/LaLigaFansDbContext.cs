@@ -59,6 +59,10 @@ namespace LaLigaFans.Infrastructure.Data
             {
                 entity.HasKey(pk => new { pk.TeamId, pk.ApplicationUserId });
             });
+            builder
+                .Entity<Comment>()
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
 
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new UserClaimsConfiguration());

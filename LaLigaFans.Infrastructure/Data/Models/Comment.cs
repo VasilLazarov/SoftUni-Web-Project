@@ -48,5 +48,9 @@ namespace LaLigaFans.Infrastructure.Data.Models
 
         [ForeignKey(nameof(ProductId))]
         public Product? Product { get; set; }
+
+        [Required]
+        [Comment("Comment is active or not active(soft deleted)")]
+        public bool IsActive { get; set; }
     }
 }

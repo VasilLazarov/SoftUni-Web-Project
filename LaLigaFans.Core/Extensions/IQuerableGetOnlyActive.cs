@@ -35,5 +35,13 @@ namespace System.Linq
 
             return activeProducts;
         }
+
+        public static IQueryable<Comment> GetOnlyActiveComments(this IQueryable<Comment> comments)
+        {
+            var activeComments = comments
+                .Where(i => i.IsActive == true);
+
+            return activeComments;
+        }
     }
 }
