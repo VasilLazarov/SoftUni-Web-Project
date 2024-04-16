@@ -26,11 +26,6 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [Comment("Address street etc")]
         public string StreetEtc { get; set; } = string.Empty;
 
-        [Required]
-        [Comment("Payment order identifier")]
-        public int OrderId { get; set; }
-
-        [ForeignKey(nameof(OrderId))]
         public Order Order { get; set; } = null!;
     }
 }

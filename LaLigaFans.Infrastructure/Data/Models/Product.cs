@@ -66,5 +66,8 @@ namespace LaLigaFans.Infrastructure.Data.Models
 
         public ICollection<Comment> Comments { get; set; }
             = new HashSet<Comment>();
+
+        public ICollection<OrderProduct> OrdersProducts { get; set; }
+            = new HashSet<OrderProduct>();
     }
 }

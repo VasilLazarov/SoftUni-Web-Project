@@ -24,11 +24,6 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [Comment("Payment method")]
         public PaymentMethod PaymentMethod { get; set; }
 
-        [Required]
-        [Comment("Payment order identifier")]
-        public int OrderId { get; set; }
-
-        [ForeignKey(nameof(OrderId))]
         public Order Order { get; set; } = null!;
 
     }

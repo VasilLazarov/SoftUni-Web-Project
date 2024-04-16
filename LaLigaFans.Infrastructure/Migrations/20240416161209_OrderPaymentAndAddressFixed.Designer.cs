@@ -4,6 +4,7 @@ using LaLigaFans.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaLigaFans.Infrastructure.Migrations
 {
     [DbContext(typeof(LaLigaFansDbContext))]
-    partial class LaLigaFansDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240416161209_OrderPaymentAndAddressFixed")]
+    partial class OrderPaymentAndAddressFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,7 +135,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                         {
                             Id = "1dcd54f5-dc66-4540-8cf9-d44658029bfd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7845b9c9-635e-47e4-b6fd-d5ce967e6e94",
+                            ConcurrencyStamp = "b4718f4c-df37-4926-bdac-fc208771cadb",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -141,9 +143,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIZtKx5oMzgkMGlY7uhR9dTjmrjYbUPKYTiBOBZ3jIy2FGgs8AIBtlAkx6Py03H2Mw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFVXfH72cl9trxMM8ntgtRrkaGhD8YNOi025jC5sLb5KKfflkbU50lWXALOCb6JsZw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "415b0b00-8e1a-4df9-9e59-c77e101e3240",
+                            SecurityStamp = "7466bf07-33e2-45b4-87ef-d78800d0cf39",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -151,7 +153,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                         {
                             Id = "176d92cc-bdaf-4569-94b8-fa377f980d89",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32131503-db63-4209-9c82-6d1906a56c45",
+                            ConcurrencyStamp = "d4a775fa-9b46-4cf8-a83b-f598590fa1ac",
                             Email = "publisher@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Publisher",
@@ -159,9 +161,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PUBLISHER@GMAIL.COM",
                             NormalizedUserName = "PUBLISHER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMYM+9agHhVem2/bfzf9wpuo1ghgd7mA5yccZK4SM4oCnL+IaAEehw6snyiOy9WorQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGGD1tpHg1nBapvIIeP6sQbjw4Te0/nSZOREOQEboV+CXeEHylauD4hEJ2D9VCmsKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2729fcca-0ec0-4a76-b957-ed09ef3779af",
+                            SecurityStamp = "a0b3e445-4f26-4f9a-a7a9-c52043635448",
                             TwoFactorEnabled = false,
                             UserName = "publisher@gmail.com"
                         },
@@ -169,7 +171,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                         {
                             Id = "9ec8c321-e4d2-4ec4-854c-81b04f6b53c6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "660a9712-b72b-47e8-ac1e-394214bacaba",
+                            ConcurrencyStamp = "fc5120b8-f26d-4390-a401-0853fae1a6f9",
                             Email = "user1@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User",
@@ -177,9 +179,9 @@ namespace LaLigaFans.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDCqMEIs/kq0wlt4d6hX3XiQtqFbUlGjVUy0GvJlRoa/wqEEXaJu9fmc4tLcZs4iYQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEm1AO88JDyk7RtVM/TwHLdRUnqeUY8cNrKMvCPiUweWRENx3FvfJDAyHIhH6Sv7tg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "64d9ccbb-f3d7-4636-9e9f-4440fd6f4d3c",
+                            SecurityStamp = "78570bd6-54bf-4953-a005-5ea47a0f6428",
                             TwoFactorEnabled = false,
                             UserName = "user1@gmail.com"
                         });
@@ -458,7 +460,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "BarcaNews1.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2024, 4, 16, 19, 23, 14, 608, DateTimeKind.Local).AddTicks(7750),
+                            PublishedOn = new DateTime(2024, 4, 16, 19, 12, 9, 365, DateTimeKind.Local).AddTicks(7175),
                             TeamId = 1,
                             Title = "Barcelona crushed PSG and took the lead ahead of the second leg"
                         },
@@ -469,7 +471,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "BarcaNews2.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2023, 12, 31, 19, 23, 14, 608, DateTimeKind.Local).AddTicks(7756),
+                            PublishedOn = new DateTime(2023, 12, 31, 19, 12, 9, 365, DateTimeKind.Local).AddTicks(7180),
                             TeamId = 1,
                             Title = "Barcelona with new lost points in La Liga"
                         },
@@ -480,7 +482,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "RealNews1.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2024, 3, 20, 19, 23, 14, 608, DateTimeKind.Local).AddTicks(7758),
+                            PublishedOn = new DateTime(2024, 3, 20, 19, 12, 9, 365, DateTimeKind.Local).AddTicks(7182),
                             TeamId = 2,
                             Title = "Real Madrid and Manchester City could not beat each other"
                         },
@@ -491,7 +493,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "RealNews2.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2024, 2, 16, 19, 23, 14, 608, DateTimeKind.Local).AddTicks(7760),
+                            PublishedOn = new DateTime(2024, 2, 16, 19, 12, 9, 365, DateTimeKind.Local).AddTicks(7184),
                             TeamId = 2,
                             Title = "Real Madrid with another victory in La Liga"
                         },
@@ -502,7 +504,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "AtleticoNews.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2023, 9, 16, 19, 23, 14, 608, DateTimeKind.Local).AddTicks(7762),
+                            PublishedOn = new DateTime(2023, 9, 16, 19, 12, 9, 365, DateTimeKind.Local).AddTicks(7187),
                             TeamId = 3,
                             Title = "Atletico Madrid with a tough win against Borussia Dortmund"
                         },
@@ -513,7 +515,7 @@ namespace LaLigaFans.Infrastructure.Migrations
                             ImageURL = "SevillaNews.png",
                             IsActive = false,
                             OwnerId = "176d92cc-bdaf-4569-94b8-fa377f980d89",
-                            PublishedOn = new DateTime(2024, 4, 16, 12, 23, 14, 608, DateTimeKind.Local).AddTicks(7764),
+                            PublishedOn = new DateTime(2024, 4, 16, 12, 12, 9, 365, DateTimeKind.Local).AddTicks(7189),
                             TeamId = 5,
                             Title = "Sevilla with a difficult but important victory"
                         });
@@ -554,25 +556,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.ToTable("Order");
 
                     b.HasComment("Order is a entity class");
-                });
-
-            modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.OrderProduct", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasComment("Product identifier");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int")
-                        .HasComment("Order identifier");
-
-                    b.HasKey("ProductId", "OrderId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrdersProducts");
-
-                    b.HasComment("OrderProduct is a mapping table entity class");
                 });
 
             modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Payment", b =>
@@ -1342,21 +1325,21 @@ namespace LaLigaFans.Infrastructure.Migrations
                         new
                         {
                             Id = "18c72cdd-60c4-4a26-b931-d183cb23e593",
-                            ConcurrencyStamp = "0713acd6-d3c9-4a89-9244-c439387d5089",
+                            ConcurrencyStamp = "87417f80-996e-43b8-a418-9330582b8561",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "91accf42-f5d3-47ee-8300-4671d5b47e46",
-                            ConcurrencyStamp = "f0f619b4-92fc-49c3-b3ee-8c55c7535e2c",
+                            ConcurrencyStamp = "1f935250-f8f7-4617-ad43-c853b866c3f2",
                             Name = "Publisher",
                             NormalizedName = "PUBLISHER"
                         },
                         new
                         {
                             Id = "f9725b78-b6af-40c1-90d4-f77de178c1fd",
-                            ConcurrencyStamp = "2cb44d88-cf37-45bf-91d0-d6b696848a80",
+                            ConcurrencyStamp = "32a95e3e-a02d-4a1e-9700-d680c02fde8c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -1659,25 +1642,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.OrderProduct", b =>
-                {
-                    b.HasOne("LaLigaFans.Infrastructure.Data.Models.Order", "Order")
-                        .WithMany("OrdersProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LaLigaFans.Infrastructure.Data.Models.Product", "Product")
-                        .WithMany("OrdersProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Player", b =>
                 {
                     b.HasOne("LaLigaFans.Infrastructure.Data.Models.Team", "Team")
@@ -1805,11 +1769,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Order", b =>
-                {
-                    b.Navigation("OrdersProducts");
-                });
-
             modelBuilder.Entity("LaLigaFans.Infrastructure.Data.Models.Payment", b =>
                 {
                     b.Navigation("Order")
@@ -1821,8 +1780,6 @@ namespace LaLigaFans.Infrastructure.Migrations
                     b.Navigation("CartsProducts");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("OrdersProducts");
 
                     b.Navigation("UsersFavorite");
                 });

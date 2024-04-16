@@ -21,9 +21,21 @@ namespace LaLigaFans.Infrastructure.Data.Models
         [ForeignKey(nameof(BuyerId))]
         public ApplicationUser Buyer { get; set; } = null!;
 
+        [Required]
+        [Comment("Order payment identifier")]
+        public int PaymentId { get; set; }
+
+        [ForeignKey(nameof(PaymentId))]
         public Payment Payment { get; set; } = null!;
 
+        [Required]
+        [Comment("Order address identifier")]
+        public int AddressId { get; set; }
+
+        [ForeignKey(nameof(AddressId))]
         public Address Address { get; set; } = null!;
 
+        public ICollection<OrderProduct> OrdersProducts { get; set; }
+            = new HashSet<OrderProduct>();
     }
 }

@@ -41,6 +41,8 @@ namespace LaLigaFans.Infrastructure.Data
         public DbSet<ApplicationUserTeam> ApplicationUsersTeams { get; set; } = null!;
 
         public DbSet<CartProduct> CartsProducts { get; set; } = null!;
+        
+        public DbSet<OrderProduct> OrdersProducts { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -59,6 +61,12 @@ namespace LaLigaFans.Infrastructure.Data
             {
                 entity.HasKey(pk => new { pk.TeamId, pk.ApplicationUserId });
             });
+
+            builder.Entity<OrderProduct>(entity =>
+            {
+                entity.HasKey(pk => new { pk.ProductId, pk.OrderId });
+            });
+
             builder
                 .Entity<Comment>()
                 .Property(p => p.IsActive)
