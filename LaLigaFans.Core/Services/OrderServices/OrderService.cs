@@ -18,7 +18,7 @@ namespace LaLigaFans.Core.Services.OrderServices
         }
 
 
-        public async Task<OrderFormModel> GetOrderFromModelWithProducts(int cartId)
+        public async Task<OrderFormModel> GetOrderFromModelWithProductsAsync(int cartId)
         {
             var products = await repository.AllReadOnly<CartProduct>()
                 .Where(c => c.CartId == cartId)
@@ -41,7 +41,7 @@ namespace LaLigaFans.Core.Services.OrderServices
             return orderModel;
         }
 
-        public async Task<int> CreatePayment(decimal totalPrice, PaymentMethod paymentMethod)
+        public async Task<int> CreatePaymentAsync(decimal totalPrice, PaymentMethod paymentMethod)
         {
             var payment = new Payment()
             {
@@ -55,7 +55,7 @@ namespace LaLigaFans.Core.Services.OrderServices
             return payment.Id;
         }
 
-        public async Task<int> CreateAddress(string city, string streetEtc)
+        public async Task<int> CreateAddressAsync(string city, string streetEtc)
         {
             var address = new Address() 
             { 
@@ -69,7 +69,7 @@ namespace LaLigaFans.Core.Services.OrderServices
             return address.Id;
         }
 
-        public async Task CreateOrder(int cartId, string userId, int paymentId, int addressId)
+        public async Task CreateOrderAsync(int cartId, string userId, int paymentId, int addressId)
         {
             var products = await repository.All<CartProduct>()
                 .Where(c => c.CartId == cartId)
@@ -97,6 +97,66 @@ namespace LaLigaFans.Core.Services.OrderServices
             await repository.AddAsync(order);
             await repository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<OrderServiceModel>> GetOrdersByUserIdAsync(string userId)
+        {
+            var orders = await repository.AllReadOnly<Order>()
+                .Where(o => o.BuyerId == userId)
+                .Include(o => o.OrdersProducts)
+                .Select(o => new OrderServiceModel()
+                {
+                    Id = o.Id,
+                    PaymentMethod = o.Payment.PaymentMethod,
+                    TotalPrice = o.Payment.TotalPrice,
+                    City = o.Address.City,
+                    StreetEtc = o.Address.StreetEtc,
+                    ProductsCount = o.OrdersProducts.Count(),
+                    UserFullName = o.Buyer.FirstName + " " + o.Buyer.LastName
+                })
+                .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<bool> ExistsAsync(int orderId)
+        {
+            var result = await repository.AllReadOnly<Order>()
+                .AnyAsync(o => o.Id == orderId);
+
+            return result;
+        }
+
+
+        public async Task<OrderServiceModel?> GetOrderDetailsByIdAsync(int orderId)
+        {
+            var orders = await repository.AllReadOnly<Order>()
+                .Where(o => o.Id == orderId)
+                .Include(o => o.OrdersProducts)
+                .ThenInclude(op => op.Product)
+                .Select(o => new OrderServiceModel()
+                {
+                    Id = o.Id,
+                    PaymentMethod = o.Payment.PaymentMethod,
+                    TotalPrice = o.Payment.TotalPrice,
+                    City = o.Address.City,
+                    StreetEtc = o.Address.StreetEtc,
+                    ProductsCount = o.OrdersProducts.Count(),
+                    UserFullName = o.Buyer.FirstName + " " + o.Buyer.LastName,
+                    Products = o.OrdersProducts
+                        .Select(op => new ProductServiceModel()
+                        {
+                            Id = op.ProductId,
+                            ImageUrl = op.Product.ImageURL,
+                            Name = op.Product.Name,
+                            Price = op.Product.Price
+                        })
+                })
+                .FirstOrDefaultAsync();
+
+            return orders;
+        }
+
+
 
     }
 }

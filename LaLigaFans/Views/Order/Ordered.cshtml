@@ -1,6 +1,32 @@
-﻿
+﻿@model IEnumerable<OrderServiceModel>
 @{
-    ViewBag.Title = "Order was successfull";
+    ViewBag.Title = "My Orders";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>Products Count</label></th>
+            <th><label>Payment Method</label></th>
+            <th><label>Total Price</label></th>
+            <th><label>Details</label></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td><label>@order.ProductsCount</label></td>
+                <td><label>@order.PaymentMethod</label></td>
+                <td><label>@order.TotalPrice</label></td>
+                <td><a asp-area="" asp-controller="Order" asp-action="Details" 
+                    asp-route-id="@order.Id" class="btn btn-success">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

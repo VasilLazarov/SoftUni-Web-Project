@@ -29,7 +29,7 @@ namespace LaLigaFans.Controllers
                 return BadRequest();
             }
 
-            var orderModel = await orderService.GetOrderFromModelWithProducts(id);
+            var orderModel = await orderService.GetOrderFromModelWithProductsAsync(id);
 
             return View(orderModel);
         }
@@ -47,13 +47,13 @@ namespace LaLigaFans.Controllers
                 return BadRequest();
             }
 
-            int paymentId = await orderService.CreatePayment(model.TotalPrice, model.PaymentMethod);
+            int paymentId = await orderService.CreatePaymentAsync(model.TotalPrice, model.PaymentMethod);
 
-            int addressId = await orderService.CreateAddress(model.City, model.StreetEtc);
+            int addressId = await orderService.CreateAddressAsync(model.City, model.StreetEtc);
 
             string userId = User.Id();
 
-            await orderService.CreateOrder(model.CartId, userId, paymentId, addressId);
+            await orderService.CreateOrderAsync(model.CartId, userId, paymentId, addressId);
 
             await cartService.ClearCartAsync(model.CartId);
             
@@ -63,8 +63,24 @@ namespace LaLigaFans.Controllers
         [HttpGet]
         public async Task<IActionResult> Ordered()
         {
-            
-            return View();
+            string userId = User.Id();
+
+            var orders = await orderService.GetOrdersByUserIdAsync(userId);
+
+            return View(orders);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (await orderService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var order = await orderService.GetOrderDetailsByIdAsync(id);
+
+            return View(order);
         }
     }
 }

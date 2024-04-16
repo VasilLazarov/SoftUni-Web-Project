@@ -5,12 +5,18 @@ namespace LaLigaFans.Core.Contracts.OrderContracts
 {
     public interface IOrderService
     {
-        Task<OrderFormModel> GetOrderFromModelWithProducts(int cartId);
+        Task<OrderFormModel> GetOrderFromModelWithProductsAsync(int cartId);
 
-        Task<int> CreatePayment(decimal totalPrice, PaymentMethod paymentMethod);
+        Task<int> CreatePaymentAsync(decimal totalPrice, PaymentMethod paymentMethod);
 
-        Task<int> CreateAddress(string city, string streetEtc);
+        Task<int> CreateAddressAsync(string city, string streetEtc);
 
-        Task CreateOrder(int cartId, string userId, int paymentId, int addressId);
+        Task CreateOrderAsync(int cartId, string userId, int paymentId, int addressId);
+
+        Task<IEnumerable<OrderServiceModel>> GetOrdersByUserIdAsync(string userId);
+
+        Task<bool> ExistsAsync(int orderId);
+
+        Task<OrderServiceModel?> GetOrderDetailsByIdAsync(int orderId);
     }
 }
