@@ -2,7 +2,6 @@
 using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Models.Comment;
-using LaLigaFans.Core.Models.News;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

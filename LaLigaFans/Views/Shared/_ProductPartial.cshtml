@@ -32,9 +32,28 @@
                     </form>
                 }
                 <p></p>
-                <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
-                    <input class="btn btn-lg btn-primary" type="submit" value="Add to cart" />
-                </form>
+                if (await productService.IsProductAddedToCart(Model.Id, User.Id()))
+                {
+                    <form asp-area="" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-lg btn-primary" type="submit" value="Remove from Cart" />
+                    </form>
+                }
+                else
+                {
+                    if (await productService.IsProductAvailable(@Model.Id) == false)
+                    {
+                        <h6 class="text-danger">Product is not available!</h6>
+                        <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary disabled" type="submit" value="Add to cart" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Add to cart" />
+                        </form>
+                    }
+                }
             }
         </div>
     </div>

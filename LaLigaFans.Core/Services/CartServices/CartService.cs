@@ -1,6 +1,9 @@
 ﻿using LaLigaFans.Core.Contracts.CartContracts;
+using LaLigaFans.Core.Models.Cart;
+using LaLigaFans.Core.Models.Products;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaLigaFans.Core.Services.CartServices
 {
@@ -23,5 +26,32 @@ namespace LaLigaFans.Core.Services.CartServices
             await repository.AddAsync(cart);
             await repository.SaveChangesAsync();
         }
+
+        public async Task<CartServiceModel?> Load(string userId)
+        {
+            var cartModel = await repository.AllReadOnly<Cart>()
+                .Where(c => c.ApplicationUserId == userId)
+                .Select(c => new CartServiceModel()
+                {
+                    Id = c.Id,
+                    Products = c.CartsProducts
+                        .Select(cp => new ProductServiceModel()
+                        {
+                            Id = cp.Product.Id,
+                            Name = cp.Product.Name,
+                            Price = cp.Product.Price,
+                            ImageUrl = cp.Product.ImageURL
+                        })
+                })
+                .FirstOrDefaultAsync();
+
+            if(cartModel != null)
+            {
+                cartModel.TotalPrice = cartModel.Products.Sum(p => p.Price);
+            }
+
+            return cartModel;
+        }
+
     }
 }

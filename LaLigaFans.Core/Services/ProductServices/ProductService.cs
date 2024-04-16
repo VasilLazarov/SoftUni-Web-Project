@@ -351,6 +351,80 @@ namespace LaLigaFans.Core.Services.ProductServices
             return productModel;
         }
 
+        public async Task AddProductToCartAsync(int productId, string userId)
+        {
+            var cart = await repository.All<Cart>()
+                .Where(c => c.ApplicationUserId == userId)
+                .Include(c => c.CartsProducts)
+                .FirstOrDefaultAsync();
+
+            if (cart != null)
+            {
+                var cartProduct = new CartProduct()
+                {
+                    ProductId = productId,
+                };
+
+                cart.CartsProducts.Add(cartProduct);
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveProductFromCartAsync(int productId, string userId)
+        {
+            var cart = await repository.All<Cart>()
+                .Where(c => c.ApplicationUserId == userId)
+                .Include(c => c.CartsProducts)
+                .FirstOrDefaultAsync();
+
+            if (cart != null)
+            {
+                var removeProduct = cart.CartsProducts
+                    .Where(cp => cp.ProductId == productId)
+                    .FirstOrDefault();
+
+                if (removeProduct != null)
+                {
+                    cart.CartsProducts.Remove(removeProduct);
+                    await repository.SaveChangesAsync();
+                }
+            }
+        }
+
+        public async Task<bool> IsProductAddedToCart(int productId, string userId)
+        {
+            bool result = false;
+
+            var cart = await repository.AllReadOnly<Cart>()
+                .Where(c => c.ApplicationUserId == userId)
+                .Include(c => c.CartsProducts)
+                .FirstOrDefaultAsync();
+
+            if (cart != null)
+            {
+                result = cart.CartsProducts.Any(cp => cp.ProductId == productId);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> IsProductAvailable(int productId)
+        {
+            var result = false;
+
+            var productUnitsAvailable = await repository.AllReadOnly<Product>()
+                .Where(p => p.Id == productId)
+                .Select(p => p.UnitsAvailable)
+                .FirstOrDefaultAsync();
+            if(productUnitsAvailable > 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+
 
     }
 }

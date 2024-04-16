@@ -122,5 +122,30 @@ namespace LaLigaFans.Controllers
             return RedirectToAction(nameof(Favorites));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            if (await productService.ExistAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await productService.IsProductAvailable(id) == false)
+            {
+                return BadRequest();
+            }
+
+            string userId = User.Id();
+
+            if (await productService.IsProductAddedToCart(id, userId))
+            {
+                return BadRequest();
+            }
+
+            await productService.AddProductToCartAsync(id, userId);
+
+            return RedirectToAction("Load", "Cart");
+        }
+
     }
 }
