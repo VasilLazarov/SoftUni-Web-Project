@@ -24,7 +24,7 @@ namespace LaLigaFans.Controllers
         public async Task<IActionResult> Load()
         {
             string userId = User.Id();
-            var cart = await cartService.Load(userId);
+            var cart = await cartService.LoadAsync(userId);
 
             return View(cart);
         }

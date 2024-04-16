@@ -54,6 +54,8 @@ namespace LaLigaFans.Controllers
             string userId = User.Id();
 
             await orderService.CreateOrder(model.CartId, userId, paymentId, addressId);
+
+            await cartService.ClearCartAsync(model.CartId);
             
             return RedirectToAction(nameof(Ordered));
         }

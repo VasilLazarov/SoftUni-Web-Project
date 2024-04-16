@@ -27,7 +27,7 @@ namespace LaLigaFans.Core.Services.CartServices
             await repository.SaveChangesAsync();
         }
 
-        public async Task<CartServiceModel?> Load(string userId)
+        public async Task<CartServiceModel?> LoadAsync(string userId)
         {
             var cartModel = await repository.AllReadOnly<Cart>()
                 .Where(c => c.ApplicationUserId == userId)
@@ -59,6 +59,24 @@ namespace LaLigaFans.Core.Services.CartServices
 
             return result;
         }
+
+        public async Task ClearCartAsync(int cartId)
+        {
+            var cart = await repository.All<Cart>()
+                .Where(c => c.Id == cartId)
+                .Include(c => c.CartsProducts)
+                .FirstOrDefaultAsync();
+
+            if(cart != null)
+            {
+                foreach (var cartProduct in cart.CartsProducts)
+                {
+                    cart.CartsProducts.Remove(cartProduct);
+                }
+                await repository.SaveChangesAsync();
+            }
+        }
+
 
 
     }

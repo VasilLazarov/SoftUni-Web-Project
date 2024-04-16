@@ -1,12 +1,10 @@
 ﻿using LaLigaFans.Core.Contracts.OrderContracts;
-using LaLigaFans.Core.Models.Cart;
 using LaLigaFans.Core.Models.Order;
 using LaLigaFans.Core.Models.Products;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using LaLigaFans.Infrastructure.Enums;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace LaLigaFans.Core.Services.OrderServices
 {
@@ -42,7 +40,6 @@ namespace LaLigaFans.Core.Services.OrderServices
 
             return orderModel;
         }
-
 
         public async Task<int> CreatePayment(decimal totalPrice, PaymentMethod paymentMethod)
         {
