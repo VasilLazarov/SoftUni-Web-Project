@@ -1,0 +1,19 @@
+﻿@model CommentServiceModel
+
+<div class="card mb-1 border-dark">
+    <div class="card-body m-1 p-1">
+        <h5 class=""><b>@Model.Title</b></h5>
+        <p class="p-0 m-0" style="">@Model.Content</p>
+        <p class="p-0 m-0">Author: <b>@Model.Author</b></p>
+        <p class="p-0 m-0" style="font-size:0.7rem;">@Model.CreatedOn</p>
+        <div class="form-inline text-center">
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (User.IsAdmin())
+                {
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
+            }
+        </div>
+    </div>
+</div>

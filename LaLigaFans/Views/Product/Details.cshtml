@@ -46,5 +46,29 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-2">
+        <div class="col-xl-6">
+            @if (!Model.Comments.Any())
+            {
+                    <h5 class="text-center">No comments found!</h5>
+            }
+            else
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                            <partial name="_CommentPartial" model="@comment" />
+                }
+            }
+        </div>
+        <div class="col-xl-6">
+             <partial name="_ProductCommentFormPartial" model="@Model.CommentForm" />
+        </div>
+
+    </div>
 </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
 

@@ -1,0 +1,22 @@
+﻿@model CommentFormModel
+
+    <form asp-area="" asp-action="AddToNews" asp-controller="Comment" asp-route-id="@Model.CommentObjectId" method="post">
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" placeholder="Title...">
+            <span asp-validation-for="Title" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Content"></label>
+            <textarea asp-for="Content" rows="2" class="form-control" placeholder="Content..."></textarea>
+            <span asp-validation-for="Content" class="small text-danger"></span>
+        </div>
+        <div class="form-group d-none">
+            <label asp-for="CommentObjectId"></label>
+            <input asp-for="CommentObjectId" value="@Model.CommentObjectId" class="form-control" placeholder="Title...">
+            <span asp-validation-for="CommentObjectId" class="small text-danger"></span>
+        </div>
+        <div class="text-center">
+            <input class="btn btn-primary mt-3" type="submit" value="Save" />
+        </div>
+    </form>

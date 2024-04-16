@@ -1,6 +1,7 @@
 ﻿using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Models.Products;
+using LaLigaFans.Core.Models.Comment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -57,6 +58,10 @@ namespace LaLigaFans.Controllers
             }
 
             var productModel = await productService.ProductDetailsByIdAsync(id);
+            productModel.CommentForm = new CommentFormModel()
+            {
+                CommentObjectId = id
+            };
 
             return View(productModel);
         }

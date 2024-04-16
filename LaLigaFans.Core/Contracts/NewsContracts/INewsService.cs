@@ -1,6 +1,5 @@
 ﻿using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.News;
-using LaLigaFans.Core.Models.Player;
 
 namespace LaLigaFans.Core.Contracts.NewsContracts
 {

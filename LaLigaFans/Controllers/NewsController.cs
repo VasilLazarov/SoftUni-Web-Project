@@ -1,12 +1,12 @@
 ﻿using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Models.News;
+using LaLigaFans.Core.Models.Comment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static LaLigaFans.Core.Constants.RoleNamesConstants;
 using static LaLigaFans.Core.Constants.MessageConstants;
-using LaLigaFans.Core.Services.PlayerServices;
+using static LaLigaFans.Core.Constants.RoleNamesConstants;
 
 
 namespace LaLigaFans.Controllers
@@ -58,6 +58,10 @@ namespace LaLigaFans.Controllers
             }
 
             var newsModel = await newsService.NewsDetailsByIdAsync(id);
+            newsModel.CommentForm = new CommentFormModel()
+            {
+                CommentObjectId = id
+            };
 
             return View(newsModel);
         }

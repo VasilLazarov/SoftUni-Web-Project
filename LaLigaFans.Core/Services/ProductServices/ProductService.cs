@@ -1,4 +1,5 @@
-﻿using LaLigaFans.Core.Contracts.OtherContracts;
+﻿using LaLigaFans.Core.Contracts.CommentContracts;
+using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Enums;
 using LaLigaFans.Core.Models.Products;
@@ -14,12 +15,16 @@ namespace LaLigaFans.Core.Services.ProductServices
 
         private readonly IUploadService uploadService;
 
+        private readonly ICommentService commentService;
+
         public ProductService(
             IRepository _repository, 
-            IUploadService _uploadService)
+            IUploadService _uploadService,
+            ICommentService _commentService)
         {
             repository = _repository;
             uploadService = _uploadService;
+            commentService = _commentService;
         }
 
         public async Task<ProductsQueryServiceModel> AllAsync(
@@ -125,6 +130,8 @@ namespace LaLigaFans.Core.Services.ProductServices
                     UnitsAvailable = p.UnitsAvailable
                 })
                 .FirstAsync();
+
+            productWithDetails.Comments = await commentService.LastTwoProductCommentsAsync(id);
 
             return productWithDetails;
         }

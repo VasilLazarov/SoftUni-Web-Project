@@ -1,7 +1,11 @@
-﻿using LaLigaFans.Core.Contracts.NewsContracts;
+﻿using LaLigaFans.Core.Contracts.CommentContracts;
+using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Enums;
+using LaLigaFans.Core.Models.Comment;
 using LaLigaFans.Core.Models.News;
+using LaLigaFans.Core.Models.Team;
+using LaLigaFans.Core.Services.TeamServices;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +19,16 @@ namespace LaLigaFans.Core.Services.NewsServices
 
         private readonly IUploadService uploadService;
 
+        private readonly ICommentService commentService;
+
         public NewsService(
             IRepository _repository,
-            IUploadService _uploadService)
+            IUploadService _uploadService,
+            ICommentService _commentService)
         {
             repository = _repository;
             uploadService = _uploadService;
+            commentService = _commentService;
         }
 
         public async Task<NewsQueryServiceModel> AllAsync(
@@ -115,6 +123,8 @@ namespace LaLigaFans.Core.Services.NewsServices
                     Owner = n.Owner.FirstName + " " + n.Owner.LastName
                 })
                 .FirstAsync();
+
+            teamWithDetails.Comments = await commentService.LastTwoNewsCommentsAsync(id);
 
             return teamWithDetails;
         }
