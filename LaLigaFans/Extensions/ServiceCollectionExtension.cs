@@ -1,6 +1,7 @@
 ﻿using LaLigaFans.Core.Contracts.CartContracts;
 using LaLigaFans.Core.Contracts.CommentContracts;
 using LaLigaFans.Core.Contracts.NewsContracts;
+using LaLigaFans.Core.Contracts.OrderContracts;
 using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Contracts.PlayerContracts;
 using LaLigaFans.Core.Contracts.ProductContracts;
@@ -8,6 +9,7 @@ using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Services.CartServices;
 using LaLigaFans.Core.Services.CommentServices;
 using LaLigaFans.Core.Services.NewsServices;
+using LaLigaFans.Core.Services.OrderServices;
 using LaLigaFans.Core.Services.OtherServices;
 using LaLigaFans.Core.Services.PlayerServices;
 using LaLigaFans.Core.Services.ProductServices;
@@ -24,15 +26,21 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //Add services to IoC conteiner
             services.AddScoped<ICartService, CartService>();
+
             services.AddScoped<ITeamService, TeamService>();
+
             services.AddScoped<IPlayerService, PlayerService>();
+
             services.AddScoped<IUploadService, UploadService>();
+
             services.AddScoped<INewsService, NewsService>();
+
             services.AddScoped<IProductService, ProductService>();
+
             services.AddScoped<ICommentService, CommentService>();
 
+            services.AddScoped<IOrderService, OrderService>();
 
 
             return services;

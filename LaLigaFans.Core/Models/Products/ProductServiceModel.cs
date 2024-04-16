@@ -13,6 +13,8 @@ namespace LaLigaFans.Core.Models.Products
 
         public decimal Price { get; set; }
 
+        public int UnitsAvailable { get; set; }
+
 
     }
 }

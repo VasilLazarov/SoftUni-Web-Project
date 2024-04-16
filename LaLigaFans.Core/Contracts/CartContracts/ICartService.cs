@@ -8,5 +8,6 @@ namespace LaLigaFans.Core.Contracts.CartContracts
 
         Task<CartServiceModel?> Load(string userId);
 
+        Task<bool> ExistsAsync(int cartId);
     }
 }

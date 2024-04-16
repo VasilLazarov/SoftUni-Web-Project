@@ -52,6 +52,14 @@ namespace LaLigaFans.Core.Services.CartServices
 
             return cartModel;
         }
+        public async Task<bool> ExistsAsync(int cartId)
+        {
+            var result = await repository.AllReadOnly<Cart>()
+                .AnyAsync(c => c.Id == cartId);
+
+            return result;
+        }
+
 
     }
 }

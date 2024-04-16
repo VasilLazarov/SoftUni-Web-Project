@@ -1,0 +1,14 @@
+﻿@model ProductServiceModel
+
+<div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3 d-flex align-items-stretch">
+    <div class="card w-100 align-items-center border-dark d-flex flex-column justify-content-between">
+
+        <img class="card-img-top w-100 h-100" src="~/img/products/@Model.ImageUrl" alt="Product Image" />
+
+        <div class="card-body text-center align-items-end">
+            <h4>@Model.Name</h4>
+            <h6>Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
+        </div>
+    </div>
+</div>
+
