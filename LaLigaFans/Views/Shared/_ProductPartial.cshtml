@@ -9,10 +9,10 @@
         <div class="card-body text-center align-items-end">
             <h4>@Model.Name</h4>
             <h6>Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
-            <a asp-area="" asp-controller="Product" asp-action="Details" 
-            asp-route-id="@Model.Id" class="btn btn-success">Details</a>
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
+                <a asp-area="" asp-controller="Product" asp-action="Details" 
+                asp-route-id="@Model.Id" class="btn btn-success">Details</a>
                 if (User.IsAdmin())
                 {
                     <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>

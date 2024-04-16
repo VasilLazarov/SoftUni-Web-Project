@@ -89,7 +89,38 @@ namespace LaLigaFans.Core.Services.CommentServices
             return comments;
         }
 
+        public async Task<CommentDeleteServiceModel> DeleteAsync(int commentId)
+        {
+            var comment = await repository.GetByIdAsync<Comment>(commentId);
 
+            var resultModel = new CommentDeleteServiceModel();
+
+            if (comment != null)
+            {
+                resultModel.ObjectId = comment.NewsId;
+                resultModel.ObjectType = "News";
+
+                if(comment.NewsId == null)
+                {
+                    resultModel.ObjectId = comment.ProductId;
+                    resultModel.ObjectType = "Product";
+                }
+                comment.IsActive = false;
+
+                await repository.SaveChangesAsync();
+            }
+
+            return resultModel;
+        }
+
+        public async Task<bool> ExistsAsync(int commentId)
+        {
+            var result = await repository.AllReadOnly<Comment>()
+                .GetOnlyActiveComments()
+                .AnyAsync(c => c.Id == commentId);
+
+            return result;
+        }
 
 
     }

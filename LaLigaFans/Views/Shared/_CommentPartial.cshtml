@@ -11,7 +11,9 @@
             {
                 if (User.IsAdmin())
                 {
-                    <a asp-area="Admin" asp-controller="Comment" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    <form asp-area="Admin" asp-controller="Comment" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-danger" type="submit" value="Delete" />
+                    </form>
                 }
             }
         </div>

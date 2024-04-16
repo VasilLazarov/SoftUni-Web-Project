@@ -14,6 +14,8 @@ namespace LaLigaFans.Core.Contracts.CommentContracts
         Task<IEnumerable<CommentServiceModel>> LastTwoProductCommentsAsync(
             int productId);
 
+        Task<CommentDeleteServiceModel> DeleteAsync(int commentId);
 
+        Task<bool> ExistsAsync(int commentId);
     }
 }
