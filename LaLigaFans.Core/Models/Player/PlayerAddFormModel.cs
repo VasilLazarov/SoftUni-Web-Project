@@ -6,7 +6,7 @@ using static LaLigaFans.Infrastructure.Constants.DataConstants;
 
 namespace LaLigaFans.Core.Models.Player
 {
-    public class PlayerAddFormModel
+    public class TeamPlayerAddFormModel
     {
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(PlayerFirstNameMaxLength,

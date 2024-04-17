@@ -12,7 +12,7 @@ namespace LaLigaFans.Core.Contracts.PlayerContracts
 
         Task<bool> ExistsAsync(int id);
 
-        Task<int> CreateAsync(PlayerAddFormModel model);
+        Task<int> CreateAsync(TeamPlayerAddFormModel model);
 
         Task<PlayerEditFormModel?> GetPlayerEditFormModelByIdAsync(int playerId);
 

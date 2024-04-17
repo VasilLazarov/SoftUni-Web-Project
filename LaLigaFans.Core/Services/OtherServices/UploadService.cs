@@ -1,10 +1,5 @@
 ﻿using LaLigaFans.Core.Contracts.OtherContracts;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LaLigaFans.Core.Services.OtherServices
 {

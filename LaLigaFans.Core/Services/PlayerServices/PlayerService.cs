@@ -62,7 +62,7 @@ namespace LaLigaFans.Core.Services.PlayerServices
             return result;
         }
 
-        public async Task<int> CreateAsync(PlayerAddFormModel model)
+        public async Task<int> CreateAsync(TeamPlayerAddFormModel model)
         {
             string imageUrl = model.Image.FileName;
             string folderName = "players";

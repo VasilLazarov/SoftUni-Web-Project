@@ -21,7 +21,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new PlayerAddFormModel()
+            var model = new TeamPlayerAddFormModel()
             {
                 Teams = await teamService.GetTeamIdsAndNames()
             };
@@ -30,7 +30,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(PlayerAddFormModel model)
+        public async Task<IActionResult> Add(TeamPlayerAddFormModel model)
         {
             if(await teamService.ExistsAsync(model.TeamId) == false)
             {
