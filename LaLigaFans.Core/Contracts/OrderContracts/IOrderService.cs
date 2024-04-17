@@ -18,5 +18,7 @@ namespace LaLigaFans.Core.Contracts.OrderContracts
         Task<bool> ExistsAsync(int orderId);
 
         Task<OrderServiceModel?> GetOrderDetailsByIdAsync(int orderId);
+
+        Task<IEnumerable<OrderServiceModel>> GetAllOrders();
     }
 }

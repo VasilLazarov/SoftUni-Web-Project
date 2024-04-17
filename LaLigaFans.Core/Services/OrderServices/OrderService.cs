@@ -156,6 +156,24 @@ namespace LaLigaFans.Core.Services.OrderServices
             return orders;
         }
 
+        public async Task<IEnumerable<OrderServiceModel>> GetAllOrders()
+        {
+            var orders = await repository.AllReadOnly<Order>()
+                .Include(o => o.OrdersProducts)
+                .Select(o => new OrderServiceModel()
+                {
+                    Id = o.Id,
+                    PaymentMethod = o.Payment.PaymentMethod,
+                    TotalPrice = o.Payment.TotalPrice,
+                    City = o.Address.City,
+                    StreetEtc = o.Address.StreetEtc,
+                    ProductsCount = o.OrdersProducts.Count(),
+                    UserFullName = o.Buyer.FirstName + " " + o.Buyer.LastName
+                })
+                .ToListAsync();
+
+            return orders;
+        }
 
 
     }
