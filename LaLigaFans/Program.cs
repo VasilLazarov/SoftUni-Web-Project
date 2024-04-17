@@ -24,8 +24,8 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error"); // Add "/500"
-    //Add using of custom error pages
+    app.UseExceptionHandler("/Home/Error/500");
+    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseHsts();
 }
 
@@ -39,9 +39,6 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    //Add custom Maps for routing
-
-    
     endpoints.MapControllerRoute(
         name: "areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
