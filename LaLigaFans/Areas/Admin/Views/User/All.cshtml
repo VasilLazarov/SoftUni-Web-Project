@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UserServiceModel>
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>Email</label></th>
+            <th><label>Full Name</label></th>
+            <th><label>Orders Count</label></th>
+            <th><label>Is Publisher</label></th>
+            <th><label>Add/Remove Publisher</label></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td><label>@user.Email</label></td>
+                <td><label>@user.FullName</label></td>
+                <td><label>@user.OrdersCount</label></td>
+                <td>
+                    @if (user.IsPublisher)
+                    {
+                        <label>✔</label>
+                    }
+                    else
+                    {
+                        <label class="text-center">❌</label>
+                    }
+                </td>
+                <td>
+                @if (user.IsPublisher)
+                {
+                    <a asp-area="Admin" asp-controller="User" asp-action="RemovePublisher" 
+                    asp-route-userEmail="@user.Email" class="btn btn-success">Remove role</a>
+                }
+                else
+                {
+                    <a asp-area="Admin" asp-controller="User" asp-action="AddPublisher" 
+                    asp-route-userEmail="@user.Email" class="btn btn-success">All role</a>
+                }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

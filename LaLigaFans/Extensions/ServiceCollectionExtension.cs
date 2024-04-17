@@ -6,6 +6,7 @@ using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Contracts.PlayerContracts;
 using LaLigaFans.Core.Contracts.ProductContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
+using LaLigaFans.Core.Contracts.UserContracts;
 using LaLigaFans.Core.Services.CartServices;
 using LaLigaFans.Core.Services.CommentServices;
 using LaLigaFans.Core.Services.NewsServices;
@@ -14,6 +15,7 @@ using LaLigaFans.Core.Services.OtherServices;
 using LaLigaFans.Core.Services.PlayerServices;
 using LaLigaFans.Core.Services.ProductServices;
 using LaLigaFans.Core.Services.TeamServices;
+using LaLigaFans.Core.Services.UserServices;
 using LaLigaFans.Infrastructure.Data;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
@@ -41,6 +43,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICommentService, CommentService>();
 
             services.AddScoped<IOrderService, OrderService>();
+
+            services.AddScoped<IUserService, UserService>();
 
 
             return services;
