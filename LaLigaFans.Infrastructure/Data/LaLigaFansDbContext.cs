@@ -8,10 +8,15 @@ namespace LaLigaFans.Infrastructure.Data
 {
     public class LaLigaFansDbContext : IdentityDbContext<ApplicationUser>
     {
-        public LaLigaFansDbContext(DbContextOptions<LaLigaFansDbContext> options)
+        private bool seedDb;
+        public LaLigaFansDbContext(DbContextOptions<LaLigaFansDbContext> options, bool seed = true)
             : base(options)
         {
-
+            if (!Database.IsRelational())
+            {
+                Database.EnsureCreated();
+            }
+            seedDb = seed;
         }
 
         public DbSet<Address> Addresses { get; set; } = null!;
@@ -92,22 +97,21 @@ namespace LaLigaFans.Infrastructure.Data
                 .Property(p => p.IsActive)
                 .HasDefaultValue(true);
 
+            if (seedDb)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new UserClaimsConfiguration());
+                builder.ApplyConfiguration(new IdentityRolesConfiguration());
+                builder.ApplyConfiguration(new UsersRolesConfiguration());
 
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new UserClaimsConfiguration());
-            builder.ApplyConfiguration(new IdentityRolesConfiguration());
-            builder.ApplyConfiguration(new UsersRolesConfiguration());
+                builder.ApplyConfiguration(new CartsConfiguration());
+                builder.ApplyConfiguration(new TeamsConfiguration());
+                builder.ApplyConfiguration(new PlayersConfiguration());
+                builder.ApplyConfiguration(new NewsConfiguration());
+                builder.ApplyConfiguration(new CategoriesConfiguration());
+                builder.ApplyConfiguration(new ProductsConfiguration());
+            }
 
-            builder.ApplyConfiguration(new CartsConfiguration());
-            builder.ApplyConfiguration(new TeamsConfiguration());
-            builder.ApplyConfiguration(new PlayersConfiguration());
-            builder.ApplyConfiguration(new NewsConfiguration());
-            builder.ApplyConfiguration(new CategoriesConfiguration());
-            builder.ApplyConfiguration(new ProductsConfiguration());
-
-
-            //Apply entity models configurations
-            //..................................
 
             base.OnModelCreating(builder);
         }
