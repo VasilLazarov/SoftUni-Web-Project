@@ -72,6 +72,27 @@ namespace LaLigaFans.Infrastructure.Data
                 .Property(p => p.IsActive)
                 .HasDefaultValue(true);
 
+            builder
+                .Entity<News>()
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
+            builder
+                .Entity<Product>()
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
+            builder
+                .Entity<Player>()
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
+            builder
+                .Entity<Team>()
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
+
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new UserClaimsConfiguration());
             builder.ApplyConfiguration(new IdentityRolesConfiguration());
