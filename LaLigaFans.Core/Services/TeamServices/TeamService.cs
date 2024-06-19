@@ -30,7 +30,9 @@ namespace LaLigaFans.Core.Services.TeamServices
                 .ProjectToTeamServiceModel()
                 .ToListAsync();
 
-            var totalTeams = await repository.AllReadOnly<Team>().CountAsync();
+            var totalTeams = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .CountAsync();
 
             var teamsAndCount = new TeamsQueryServiceModel()
             {
@@ -279,6 +281,25 @@ namespace LaLigaFans.Core.Services.TeamServices
         }
 
         public async Task<TeamDeleteServiceModel?> GetTeamDeleteServiceModelByIdAsync(int teamId)
+        {
+            var teamModel = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .Where(t => t.Id == teamId)
+                .Select(t => new TeamDeleteServiceModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    CoachName = t.CoachName,
+                    FoundedYear = t.FoundedYear,
+                    Information = t.Information,
+                    LogoUrl = t.LogoUrl
+                })
+                .FirstOrDefaultAsync();
+
+            return teamModel;
+        }
+
+        public async Task<TeamDeleteServiceModel?> GetTeamReturnServiceModelByIdAsync(int teamId)
         {
             var teamModel = await repository.AllReadOnly<Team>()
                 .GetOnlyActiveTeams()

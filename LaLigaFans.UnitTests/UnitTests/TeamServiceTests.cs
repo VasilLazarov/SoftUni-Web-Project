@@ -1,10 +1,7 @@
 ﻿using LaLigaFans.Core.Contracts.OtherContracts;
-using LaLigaFans.Core.Contracts.PlayerContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
-using LaLigaFans.Core.Models.Player;
 using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Core.Services.OtherServices;
-using LaLigaFans.Core.Services.PlayerServices;
 using LaLigaFans.Core.Services.TeamServices;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;

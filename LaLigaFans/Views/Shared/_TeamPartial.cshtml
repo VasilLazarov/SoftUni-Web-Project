@@ -23,7 +23,7 @@
                 if(await teamService.IsFollowedByUserWithIdAsync(Model.Id, User.Id()))
                 {
                     <form asp-area="" asp-controller="Team" asp-action="Unfollow" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-lg btn-primary" type="submit" value="Unfollow" />
+                        <input class="btn btn-primary" type="submit" value="Unfollow" />
                     </form>
                 }
                 else
