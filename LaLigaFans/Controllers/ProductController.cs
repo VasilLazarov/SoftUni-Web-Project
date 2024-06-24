@@ -52,11 +52,21 @@ namespace LaLigaFans.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            if (await productService.ExistAsync(id) == false)
+            if (User.IsAdmin())
             {
-                return BadRequest();
+                if (await productService.ExistAsync(id) == false && await productService.ExistsDeletedAsync(id) == false)
+                {
+                    return BadRequest();
+                }
             }
-
+            else
+            {
+                if (await productService.ExistAsync(id) == false)
+                {
+                    return BadRequest();
+                }
+            }
+              
             var productModel = await productService.ProductDetailsByIdAsync(id);
             productModel.CommentForm = new CommentFormModel()
             {

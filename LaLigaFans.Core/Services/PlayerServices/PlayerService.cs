@@ -41,6 +41,7 @@ namespace LaLigaFans.Core.Services.PlayerServices
                 .ToListAsync();
 
             var totaPlayers = await repository.AllReadOnly<Player>()
+                .GetOnlyActivePlayers()
                 .Where(p => p.TeamId == id)
                 .CountAsync();
 
@@ -89,7 +90,6 @@ namespace LaLigaFans.Core.Services.PlayerServices
         public async Task<PlayerEditFormModel?> GetPlayerEditFormModelByIdAsync(int playerId)
         {
             var playerModel = await repository.AllReadOnly<Player>()
-                .GetOnlyActivePlayers()
                 .Where(p => p.Id == playerId)
                 .Select(p => new PlayerEditFormModel()
                 {
@@ -128,6 +128,8 @@ namespace LaLigaFans.Core.Services.PlayerServices
                 await repository.SaveChangesAsync();
             }
 
+            
+
         }
 
         public async Task DeleteAsync(int playerId)
@@ -162,7 +164,81 @@ namespace LaLigaFans.Core.Services.PlayerServices
             return playerModel;
         }
 
+        public async Task<PlayersQueryServiceModel> DeletedPlayersAsync(
+            int currentPage = 1, 
+            int housesPerPage = 1)
+        {
+            var players = await repository.AllReadOnly<Player>()
+                .GetDeletedPlayers()
+                .Skip((currentPage - 1) * housesPerPage)
+                .Take(housesPerPage)
+                .Select(p => new PlayerServiceModel()
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Age = p.Age,
+                    ImageUrl = p.PlayerImageUrl,
+                    TeamName = p.Team.Name
+                })
+                .ToListAsync();
 
+            var totaPlayers = await repository.AllReadOnly<Player>()
+                .GetDeletedPlayers()
+                .CountAsync();
+
+            var playersAndCount = new PlayersQueryServiceModel()
+            {
+                Players = players,
+                TotalPlayersCount = totaPlayers
+            };
+
+            return playersAndCount;
+        }
+
+        public async Task<bool> ExistsDeletedAsync(int id)
+        {
+            bool result = await repository.AllReadOnly<Player>()
+                .GetDeletedPlayers()
+                .AnyAsync(p => p.Id == id);
+
+            return result;
+        }
+
+        public async Task<PlayerDeleteServiceModel?> GetPlayerReturnServiceModelByIdAsync(int playerId)
+        {
+            var playerModel = await repository.AllReadOnly<Player>()
+                .GetDeletedPlayers()
+                .Where(p => p.Id == playerId)
+                .Select(p => new PlayerDeleteServiceModel()
+                {
+                    Id = p.Id,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Age = p.Age,
+                    ImageUrl = p.PlayerImageUrl,
+                    TeamName = p.Team.Name,
+                    TeamId = p.Team.Id,
+                })
+                .FirstOrDefaultAsync();
+
+            return playerModel;
+        }
+
+        public async Task ReturnAsync(int playerId)
+        {
+            var player = await repository.All<Player>()
+                .GetDeletedPlayers()
+                .Where(p => p.Id == playerId)
+                .FirstOrDefaultAsync();
+
+            if (player != null)
+            {
+                player.IsActive = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
 
     }
 }

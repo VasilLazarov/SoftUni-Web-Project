@@ -118,7 +118,6 @@ namespace LaLigaFans.Core.Services.ProductServices
         public async Task<ProductDetailsServiceModel> ProductDetailsByIdAsync(int id)
         {
             var productWithDetails = await repository.AllReadOnly<Product>()
-                .GetOnlyActiveProducts()
                 .Where(p => p.Id == id)
                 .Select(p => new ProductDetailsServiceModel()
                 {
@@ -275,7 +274,6 @@ namespace LaLigaFans.Core.Services.ProductServices
         public async Task<ProductEditFormModel?> GetProductEditFormModelByIdAsync(int productId)
         {
             var productModel = await repository.AllReadOnly<Product>()
-                .GetOnlyActiveProducts()
                 .Where(p => p.Id == productId)
                 .Select(p => new ProductEditFormModel()
                 {
@@ -424,7 +422,96 @@ namespace LaLigaFans.Core.Services.ProductServices
             return result;
         }
 
+        public async Task<ProductDeleteServiceModel?> GetProductReturnServiceModelByIdAsync(int productId)
+        {
+            var productModel = await repository.AllReadOnly<Product>()
+                .GetDeletedProducts()
+                .Where(p => p.Id == productId)
+                .Select(p => new ProductDeleteServiceModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    UnitsAvailable = p.UnitsAvailable,
+                    ImageUrl = p.ImageURL,
+                    CategoryName = p.Category.Name,
+                    TeamName = p.Team.Name
+                })
+                .FirstOrDefaultAsync();
 
+            return productModel;
+        }
 
+        public async Task ReturnAsync(int productId)
+        {
+            var product = await repository.All<Product>()
+                .GetDeletedProducts()
+                .Where(p => p.Id == productId)
+                .FirstOrDefaultAsync();
+
+            if (product != null)
+            {
+                product.IsActive = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<ProductsQueryServiceModel> AllDeletedAsync(
+            int currentPage = 1, 
+            int productsPerPage = 1)
+        {
+            var products = await repository.AllReadOnly<Product>()
+                .GetDeletedProducts()
+                .Skip((currentPage - 1) * productsPerPage)
+                .Take(productsPerPage)
+                .Select(p => new ProductServiceModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    ImageUrl = p.ImageURL
+                })
+                .ToListAsync();
+
+            var totalProducts = await repository.AllReadOnly<Product>()
+                .GetDeletedProducts()
+                .CountAsync();
+
+            var productsAndCount = new ProductsQueryServiceModel()
+            {
+                TotalProductCount = totalProducts,
+                Products = products,
+            };
+
+            return productsAndCount;
+        }
+
+        public async Task<bool> ExistsDeletedAsync(int productId)
+        {
+            bool result = await repository.AllReadOnly<Product>()
+                .GetDeletedProducts()
+                .AnyAsync(p => p.Id == productId);
+
+            return result;
+        }
+
+        public async Task<bool> ExistsProductTeamAsync(int productId)
+        {
+            var product = await repository.AllReadOnly<Product>()
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            bool result = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .AnyAsync(t => t.Id == product.TeamId);
+
+            return result;
+        }
     }
 }

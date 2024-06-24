@@ -111,7 +111,6 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<NewsDetailsServiceModel> NewsDetailsByIdAsync(int id)
         {
             var teamWithDetails = await repository.AllReadOnly<News>()
-                .GetOnlyActiveNews()
                 .Where(n => n.Id == id)
                 .Select(n => new NewsDetailsServiceModel()
                 {
@@ -157,7 +156,6 @@ namespace LaLigaFans.Core.Services.NewsServices
         public async Task<NewsEditFormModel?> GetNewsEditFormModelByIdAsync(int newsId)
         {
             var newsModel = await repository.AllReadOnly<News>()
-                .GetOnlyActiveNews()
                 .Where(n => n.Id == newsId)
                 .Select(n => new NewsEditFormModel()
                 {
@@ -226,6 +224,95 @@ namespace LaLigaFans.Core.Services.NewsServices
             return newsModel;
         }
 
+        public async Task<NewsDeleteServiceModel?> GetNewsReturnServiceModelByIdAsync(int newsId)
+        {
+            var newsModel = await repository.AllReadOnly<News>()
+                .GetDeletedNews()
+                .Where(n => n.Id == newsId)
+                .Select(n => new NewsDeleteServiceModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ImageUrl = n.ImageURL,
+                    TeamName = n.Team.Name,
+                    PublishedOn = n.PublishedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    Owner = n.Owner.FirstName + " " + n.Owner.LastName
+                })
+                .FirstOrDefaultAsync();
 
+            return newsModel;
+        }
+
+        public async Task ReturnAsync(int newsId)
+        {
+            var news = await repository.All<News>()
+                .GetDeletedNews()
+                .Where(n => n.Id == newsId)
+                .FirstOrDefaultAsync();
+
+            if(news != null)
+            {
+                news.IsActive = true;
+
+                await repository.SaveChangesAsync();
+            }
+
+        }
+
+        public async Task<NewsQueryServiceModel> AllDeletedAsync(int currentPage = 1, int newsPerPage = 1)
+        {
+            var news = await repository.AllReadOnly<News>()
+                .GetDeletedNews()
+                .Skip((currentPage - 1) * newsPerPage)
+                .Take(newsPerPage)
+                .Select(n => new NewsServiceModel()
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    ImageUrl = n.ImageURL,
+                    Owner = n.Owner.FirstName + " " + n.Owner.LastName,
+                    PublishedOn = n.PublishedOn.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                })
+                .ToListAsync();
+
+            var totalNews = await repository.AllReadOnly<News>()
+                .GetDeletedNews()
+                .CountAsync();
+
+            var newsAndCount = new NewsQueryServiceModel()
+            {
+                TotalNewsCount = totalNews,
+                News = news
+            };
+
+            return newsAndCount;
+        }
+
+        public async Task<bool> ExistsDeletedAsync(int newsId)
+        {
+            bool result = await repository.AllReadOnly<News>()
+                .GetDeletedNews()
+                .AnyAsync(n => n.Id == newsId);
+
+            return result;
+        }
+
+        public async Task<bool> ExistsNewsTeamAsync(int newsId)
+        {
+            var news = await repository.AllReadOnly<News>()
+                .FirstOrDefaultAsync(n => n.Id == newsId);
+
+            if (news == null)
+            {
+                return false;
+            }
+
+            bool result = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .AnyAsync(t => t.Id == news.TeamId);
+
+            return result;
+        }
     }
 }

@@ -16,7 +16,14 @@
                 if (User.IsAdmin() || await newsService.HasPublisherWithIdAsync(Model.Id, User.Id()))
                 {
                     <a asp-area="" asp-controller="News" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                    <a asp-area="" asp-controller="News" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    if(await newsService.ExistsAsync(Model.Id))
+                    {
+                        <a asp-area="" asp-controller="News" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="News" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                    }
                 }
             }
         </div>

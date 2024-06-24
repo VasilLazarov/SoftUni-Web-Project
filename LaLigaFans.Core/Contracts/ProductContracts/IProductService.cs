@@ -54,5 +54,17 @@ namespace LaLigaFans.Core.Contracts.ProductContracts
 
         Task<bool> IsProductAvailable(int productId);
 
+        Task<ProductDeleteServiceModel?> GetProductReturnServiceModelByIdAsync(int productId);
+
+        Task ReturnAsync(int productId);
+
+        Task<ProductsQueryServiceModel> AllDeletedAsync(
+            int currentPage = 1,
+            int productsPerPage = 1);
+
+        Task<bool> ExistsDeletedAsync(int productId);
+
+        Task<bool> ExistsProductTeamAsync(int productId);
+
     }
 }

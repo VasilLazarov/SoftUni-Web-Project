@@ -1,4 +1,5 @@
 ﻿@model PlayerServiceModel
+@inject IPlayerService playerService
 
 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3 d-flex">
     <div class="card w-100 align-items-center border-dark">
@@ -13,7 +14,14 @@
                 if (User.IsAdmin())
                 {
                     <a asp-area="Admin" asp-controller="Player" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                    <a asp-area="Admin" asp-controller="Player" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    if(await playerService.ExistsAsync(Model.Id))
+                    {
+                        <a asp-area="Admin" asp-controller="Player" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Admin" asp-controller="Player" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                    }
                 }
             }
         </div>

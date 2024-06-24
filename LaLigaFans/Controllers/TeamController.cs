@@ -2,6 +2,7 @@
 using LaLigaFans.Core.Models.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
 
 namespace LaLigaFans.Controllers
@@ -33,9 +34,18 @@ namespace LaLigaFans.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            if (await teamService.ExistsAsync(id) == false)
+            if (User.IsAdmin())
             {
-                return BadRequest();
+                if (await teamService.ExistsAsync(id) == false && await teamService.ExistsDeletedAsync(id) == false)
+                {
+                    return BadRequest();
+                }
+            }
+            else{
+                if (await teamService.ExistsAsync(id) == false)
+                {
+                    return BadRequest();
+                }
             }
 
             var teamModel = await teamService.TeamDetailsByIdAsync(id);

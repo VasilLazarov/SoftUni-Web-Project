@@ -5,6 +5,7 @@ using LaLigaFans.Core.Models.Team;
 using LaLigaFans.Core.Services.TeamServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LaLigaFans.Controllers
 {
@@ -25,10 +26,20 @@ namespace LaLigaFans.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All(int id, [FromQuery] AllPlayersQueryModel query)
         {
-            if (await teamService.ExistsAsync(id) == false)
+            if (User.IsAdmin())
             {
-                return BadRequest();
-            }   
+                if (await teamService.ExistsAsync(id) == false && await teamService.ExistsDeletedAsync(id) == false)
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                if (await teamService.ExistsAsync(id) == false)
+                {
+                    return BadRequest();
+                }
+            } 
 
             var queryResult = await playerService.AllPlayersByTeamIdAsync(
                 id,

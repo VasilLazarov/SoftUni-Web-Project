@@ -53,5 +53,26 @@
         </div>
     </li>
 
+    <li class="nav-item dropdown">
+        <div>
+            <a class="btn dropdown-toggle" href="#" role="button"
+               id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Deleted</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Team" asp-action="AllDeleted">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Player" asp-action="AllDeleted">Players</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="News" asp-action="AllDeleted">News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="AllDeleted">Products</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+
     
 </ul>

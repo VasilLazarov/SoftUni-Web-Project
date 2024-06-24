@@ -4,6 +4,10 @@ using LaLigaFans.Core.Models.Products;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using static LaLigaFans.Core.Constants.MessageConstants;
 using Microsoft.AspNetCore.Identity;
+using LaLigaFans.Core.Models.Team;
+using LaLigaFans.Core.Models.News;
+using LaLigaFans.Core.Services.NewsServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LaLigaFans.Areas.Admin.Controllers
 {
@@ -61,7 +65,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (await productService.ExistAsync(id) == false)
+            if (await productService.ExistAsync(id) == false && await productService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -80,7 +84,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProductEditFormModel model)
         {
-            if (await productService.ExistAsync(id) == false)
+            if (await productService.ExistAsync(id) == false && await productService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -132,6 +136,52 @@ namespace LaLigaFans.Areas.Admin.Controllers
 
             return RedirectToAction("All", "Product", new { area = "" });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllDeleted([FromQuery] AllProductsQueryModel query)
+        {
+            var queryResult = await productService.AllDeletedAsync(
+                query.CurrentPage,
+                AllProductsQueryModel.ProductsPerPage);
+
+            query.TotalProductCount = queryResult.TotalProductCount;
+            query.Products = queryResult.Products;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Return(int id)
+        {
+            if (await productService.ExistsDeletedAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await productService.ExistsProductTeamAsync(id) == false)
+            {
+                return RedirectToAction("AllDeleted", "Team", new { area = "Admin" });
+            }
+
+            var newsModel = await productService.GetProductReturnServiceModelByIdAsync(id);
+
+            return View(newsModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Return(NewsDeleteServiceModel model)
+        {
+            if (await productService.ExistsDeletedAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await productService.ReturnAsync(model.Id);
+
+            return RedirectToAction("AllDeleted");
+        }
+
+
 
 
     }

@@ -29,6 +29,18 @@ namespace LaLigaFans.Core.Contracts.NewsContracts
 
         Task<NewsDeleteServiceModel?> GetNewsDeleteServiceModelByIdAsync(int newsId);
 
+        Task<NewsDeleteServiceModel?> GetNewsReturnServiceModelByIdAsync(int newsId);
+
+        Task ReturnAsync(int newsId);
+
+        Task<NewsQueryServiceModel> AllDeletedAsync(
+            int currentPage = 1,
+            int newsPerPage = 1);
+
+        Task<bool> ExistsDeletedAsync(int newsId);
+
+        Task<bool> ExistsNewsTeamAsync(int newsId);
+
 
     }
 }

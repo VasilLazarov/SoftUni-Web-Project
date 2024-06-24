@@ -24,22 +24,33 @@
                     if (User.IsAdmin())
                     {
                         <a asp-area="Admin" asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                        <a asp-area="Admin" asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                        if(await teamService.ExistsAsync(Model.Id))
+                        {
+                            <a asp-area="Admin" asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-controller="Team" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                        }
                     }
                     <br />
                     <br />
-                    if (await teamService.IsFollowedByUserWithIdAsync(Model.Id, User.Id()))
+                    if(await teamService.ExistsAsync(Model.Id))
                     {
-                        <form asp-area="" asp-controller="Team" asp-action="Unfollow" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Unfollow" />
-                        </form>
+                        if (await teamService.IsFollowedByUserWithIdAsync(Model.Id, User.Id()))
+                        {
+                            <form asp-area="" asp-controller="Team" asp-action="Unfollow" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Unfollow" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="input-group-sm" asp-area="" asp-controller="Team" asp-action="Follow" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Follow" />
+                            </form>
+                        }
                     }
-                    else
-                    {
-                        <form class="input-group-sm" asp-area="" asp-controller="Team" asp-action="Follow" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Follow" />
-                        </form>
-                    }
+                    
                 }
                     <p></p>
                     <a asp-area="" asp-controller="Player" asp-action="All" asp-route-id="@Model.Id" class="btn btn-primary">View @Model.Name players</a>

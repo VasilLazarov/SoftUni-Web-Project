@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static LaLigaFans.Core.Constants.MessageConstants;
 using static LaLigaFans.Core.Constants.RoleNamesConstants;
+using LaLigaFans.Core.Models.Team;
 
 
 namespace LaLigaFans.Controllers
@@ -52,9 +53,19 @@ namespace LaLigaFans.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            if (await newsService.ExistsAsync(id) == false)
+            if (User.IsAdmin())
             {
-                return BadRequest();
+                if (await newsService.ExistsAsync(id) == false && await newsService.ExistsDeletedAsync(id) == false)
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                if (await newsService.ExistsAsync(id) == false)
+                {
+                    return BadRequest();
+                }
             }
 
             var newsModel = await newsService.NewsDetailsByIdAsync(id);
@@ -103,7 +114,7 @@ namespace LaLigaFans.Controllers
         [Authorize(Roles = $"{AdminRoleName}, {PublisherRoleName}")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (await newsService.ExistsAsync(id) == false)
+            if (await newsService.ExistsAsync(id) == false && await newsService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -130,7 +141,7 @@ namespace LaLigaFans.Controllers
         [Authorize(Roles = $"{AdminRoleName}, {PublisherRoleName}")]
         public async Task<IActionResult> Edit(int id, NewsEditFormModel model)
         {
-            if (await newsService.ExistsAsync(id) == false)
+            if (await newsService.ExistsAsync(id) == false && await newsService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -198,6 +209,52 @@ namespace LaLigaFans.Controllers
             return RedirectToAction(nameof(All));
         }
 
+        [HttpGet]
+        [Authorize(Roles = $"{AdminRoleName}")]
+        public async Task<IActionResult> AllDeleted([FromQuery] AllNewsQueryModel query)
+        {
+            var queryResult = await newsService.AllDeletedAsync(
+                query.CurrentPage,
+                AllNewsQueryModel.NewsPerPage);
+
+            query.TotalNewsCount = queryResult.TotalNewsCount;
+            query.News = queryResult.News;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = $"{AdminRoleName}")]
+        public async Task<IActionResult> Return(int id)
+        {
+            if (await newsService.ExistsDeletedAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await newsService.ExistsNewsTeamAsync(id) == false)
+            {
+                return RedirectToAction("AllDeleted", "Team", new { area = "Admin" });
+            }
+
+            var newsModel = await newsService.GetNewsReturnServiceModelByIdAsync(id);
+
+            return View(newsModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{AdminRoleName}")]
+        public async Task<IActionResult> Return(NewsDeleteServiceModel model)
+        {
+            if (await newsService.ExistsDeletedAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await newsService.ReturnAsync(model.Id);
+
+            return RedirectToAction("AllDeleted");
+        }
 
     }
 }

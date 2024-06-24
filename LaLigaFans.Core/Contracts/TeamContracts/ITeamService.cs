@@ -38,5 +38,17 @@ namespace LaLigaFans.Core.Contracts.TeamContracts
 
         Task<TeamDeleteServiceModel?> GetTeamDeleteServiceModelByIdAsync(int teamId);
 
+        Task ReturnAsync(int teamId);
+
+        Task<TeamDeleteServiceModel?> GetTeamReturnServiceModelByIdAsync(int teamId);
+
+        Task<TeamsQueryServiceModel> AllDeletedAsync(
+            int currentPage = 1,
+            int housesPerPage = 1);
+
+        Task<bool> ExistsDeletedAsync(int id);
+
+        Task<bool> ExistsPlayerTeamAsync(int playerId);
+
     }
 }

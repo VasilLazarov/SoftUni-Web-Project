@@ -1,7 +1,10 @@
 ﻿using LaLigaFans.Core.Contracts.PlayerContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Models.Player;
+using LaLigaFans.Core.Models.Team;
+using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static LaLigaFans.Core.Constants.MessageConstants;
 
 namespace LaLigaFans.Areas.Admin.Controllers
@@ -51,7 +54,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if(await playerService.ExistsAsync(id) == false)
+            if(await playerService.ExistsAsync(id) == false && await playerService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -69,7 +72,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, PlayerEditFormModel model)
         {
-            if (await playerService.ExistsAsync(id) == false)
+            if (await playerService.ExistsAsync(id) == false && await playerService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -116,6 +119,55 @@ namespace LaLigaFans.Areas.Admin.Controllers
             return RedirectToAction("All", "Player", new { area = "", id = teamId });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllDeleted([FromQuery] AllPlayersQueryModel query)
+        {
+
+            var queryResult = await playerService.DeletedPlayersAsync(
+                query.CurrentPage,
+                AllPlayersQueryModel.PlayersPerPage);
+
+            query.TotalPlayersCount = queryResult.TotalPlayersCount;
+            query.Players = queryResult.Players;
+            if (query.Players.Count() > 0)
+            {
+                query.TeamName = query.Players.First().TeamName;
+            }
+
+            return View(query);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Return(int id)
+        {
+            if (await playerService.ExistsDeletedAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if(await teamService.ExistsPlayerTeamAsync(id) == false)
+            {
+                return RedirectToAction("AllDeleted", "Team", new { area = "Admin" });
+            }
+
+            var playerModel = await playerService.GetPlayerReturnServiceModelByIdAsync(id);
+
+            return View(playerModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Return(PlayerDeleteServiceModel model)
+        {
+            if (await playerService.ExistsDeletedAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await playerService.ReturnAsync(model.Id);
+
+            return RedirectToAction("AllDeleted");
+        }
 
     }
 }

@@ -63,7 +63,6 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<TeamDetailsServiceModel> TeamDetailsByIdAsync(int id)
         {
             var teamWithDetails = await repository.AllReadOnly<Team>()
-                .GetOnlyActiveTeams()
                 .Where(t => t.Id == id)
                 .Select(t => new TeamDetailsServiceModel()
                 {
@@ -212,7 +211,6 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<TeamEditFormModel?> GetTeamEditFormModelByIdAsync(int teamId)
         {
             var teamModel = await repository.AllReadOnly<Team>()
-                .GetOnlyActiveTeams()
                 .Where(t => t.Id == teamId)
                 .Select(t => new TeamEditFormModel()
                 {
@@ -302,7 +300,7 @@ namespace LaLigaFans.Core.Services.TeamServices
         public async Task<TeamDeleteServiceModel?> GetTeamReturnServiceModelByIdAsync(int teamId)
         {
             var teamModel = await repository.AllReadOnly<Team>()
-                .GetOnlyActiveTeams()
+                .GetDeletedTeams()
                 .Where(t => t.Id == teamId)
                 .Select(t => new TeamDeleteServiceModel()
                 {
@@ -316,6 +314,71 @@ namespace LaLigaFans.Core.Services.TeamServices
                 .FirstOrDefaultAsync();
 
             return teamModel;
+        }
+
+        public async Task ReturnAsync(int teamId)
+        {
+            var team = await repository.All<Team>()
+                .GetDeletedTeams()
+                .Where(t => t.Id == teamId)
+                .FirstOrDefaultAsync();
+
+            if (team != null)
+            {
+                team.IsActive = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<TeamsQueryServiceModel> AllDeletedAsync(
+            int currentPage = 1,
+            int housesPerPage = 1)
+        {
+            var teams = await repository.AllReadOnly<Team>()
+                .GetDeletedTeams()
+                .Skip((currentPage - 1) * housesPerPage)
+                .Take(housesPerPage)
+                .ProjectToTeamServiceModel()
+                .ToListAsync();
+
+            var totalTeams = await repository.AllReadOnly<Team>()
+                .GetDeletedTeams()
+                .CountAsync();
+
+            var teamsAndCount = new TeamsQueryServiceModel()
+            {
+                Teams = teams,
+                TotalTeamsCount = totalTeams
+            };
+
+            return teamsAndCount;
+        }
+
+        public async Task<bool> ExistsDeletedAsync(int id)
+        {
+            bool result = await repository.AllReadOnly<Team>()
+                .GetDeletedTeams()
+                .AnyAsync(t => t.Id == id);
+
+            return result;
+        }
+
+        public async Task<bool> ExistsPlayerTeamAsync(int playerId)
+        {
+            var player = await repository.AllReadOnly<Player>()
+                .FirstOrDefaultAsync(t => t.Id == playerId);
+
+            if(player == null)
+            {
+                return false;
+            }
+
+            bool result = await repository.AllReadOnly<Team>()
+                .GetOnlyActiveTeams()
+                .AnyAsync(t => t.Id == player.TeamId);
+
+            return result;
         }
 
 

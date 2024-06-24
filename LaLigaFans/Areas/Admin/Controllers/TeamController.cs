@@ -39,7 +39,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if(await teamService.ExistsAsync(id) == false)
+            if(await teamService.ExistsAsync(id) == false && await teamService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -52,7 +52,7 @@ namespace LaLigaFans.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, TeamEditFormModel model)
         {
-            if (await teamService.ExistsAsync(id) == false)
+            if (await teamService.ExistsAsync(id) == false && await teamService.ExistsDeletedAsync(id) == false)
             {
                 return BadRequest();
             }
@@ -91,6 +91,47 @@ namespace LaLigaFans.Areas.Admin.Controllers
             await teamService.DeleteAsync(model.Id);
 
             return RedirectToAction("All", "Team", new { area = "" });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AllDeleted([FromQuery] AllTeamsQueryModel query)
+        {
+            var queryResult = await teamService.AllDeletedAsync(
+                query.CurrentPage,
+                AllTeamsQueryModel.TeamsPerPage);
+
+            query.TotalTeamsCount = queryResult.TotalTeamsCount;
+            query.Teams = queryResult.Teams;
+
+            return View(query);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Return(int id)
+        {
+            if (await teamService.ExistsDeletedAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            var teamModel = await teamService.GetTeamReturnServiceModelByIdAsync(id);
+
+            return View(teamModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Return(TeamDeleteServiceModel model)
+        {
+            if (await teamService.ExistsDeletedAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            await teamService.ReturnAsync(model.Id);
+
+            return RedirectToAction("AllDeleted");
         }
 
 
