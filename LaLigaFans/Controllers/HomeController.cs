@@ -1,7 +1,5 @@
-﻿using LaLigaFans.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace LaLigaFans.Controllers
 {

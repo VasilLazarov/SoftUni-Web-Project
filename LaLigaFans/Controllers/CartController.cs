@@ -1,6 +1,5 @@
 ﻿using LaLigaFans.Core.Contracts.CartContracts;
 using LaLigaFans.Core.Contracts.ProductContracts;
-using LaLigaFans.Core.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

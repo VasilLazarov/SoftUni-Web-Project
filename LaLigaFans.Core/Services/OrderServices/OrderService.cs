@@ -126,7 +126,6 @@ namespace LaLigaFans.Core.Services.OrderServices
             return result;
         }
 
-
         public async Task<OrderServiceModel?> GetOrderDetailsByIdAsync(int orderId)
         {
             var orders = await repository.AllReadOnly<Order>()

@@ -1,13 +1,12 @@
 ﻿using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
-using LaLigaFans.Core.Models.News;
 using LaLigaFans.Core.Models.Comment;
+using LaLigaFans.Core.Models.News;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static LaLigaFans.Core.Constants.MessageConstants;
 using static LaLigaFans.Core.Constants.RoleNamesConstants;
-using LaLigaFans.Core.Models.Team;
 
 
 namespace LaLigaFans.Controllers

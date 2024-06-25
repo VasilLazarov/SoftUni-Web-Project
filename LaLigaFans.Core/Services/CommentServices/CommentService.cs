@@ -67,7 +67,6 @@ namespace LaLigaFans.Core.Services.CommentServices
             return comments;
         }
 
-
         public async Task<IEnumerable<CommentServiceModel>> LastTwoProductCommentsAsync(
             int productId)
         {

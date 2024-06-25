@@ -2,7 +2,6 @@
 using LaLigaFans.Core.Models.Team;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
 
 namespace LaLigaFans.Controllers

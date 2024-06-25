@@ -1,8 +1,6 @@
 ﻿using LaLigaFans.Core.Contracts.PlayerContracts;
 using LaLigaFans.Core.Contracts.TeamContracts;
 using LaLigaFans.Core.Models.Player;
-using LaLigaFans.Core.Models.Team;
-using LaLigaFans.Core.Services.TeamServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

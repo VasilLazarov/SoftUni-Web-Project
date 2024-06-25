@@ -2,10 +2,7 @@
 using LaLigaFans.Core.Contracts.NewsContracts;
 using LaLigaFans.Core.Contracts.OtherContracts;
 using LaLigaFans.Core.Enums;
-using LaLigaFans.Core.Models.Comment;
 using LaLigaFans.Core.Models.News;
-using LaLigaFans.Core.Models.Team;
-using LaLigaFans.Core.Services.TeamServices;
 using LaLigaFans.Infrastructure.Data.Comman;
 using LaLigaFans.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;

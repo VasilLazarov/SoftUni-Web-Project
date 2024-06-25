@@ -135,7 +135,6 @@ namespace LaLigaFans.Core.Services.ProductServices
             return productWithDetails;
         }
 
-
         public async Task<ProductsQueryServiceModel> FavoritesAsync(
             string userId,
             int currentPage = 1,
@@ -169,7 +168,6 @@ namespace LaLigaFans.Core.Services.ProductServices
 
 
         }
-
 
         public async Task AddProductToFavoritesAsync(int productId, string userId)
         {
