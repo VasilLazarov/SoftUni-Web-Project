@@ -1,12 +1,43 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using LaLigaFans.Infrastructure.Data.Models
+@using System.Security.Claims
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    string fullName = string.Empty;
+    if(SignInManager.IsSignedIn(User))
+    {
+        fullName = User.FindFirstValue(LaLigaFans.Infrastructure.Constants.CustomClaims.UserFullNameClaim) ?? string.Empty;
+    }
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <li class="nav-item dropdown">
+        <div>
+            <a class="btn dropdown-toggle" href="#" role="button" 
+            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Favorites</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Followed">Followed Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Favorites">Favorite Products</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+        <a  class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Ordered">Orders</a>
+    </li>
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Load">Cart</a>
+    </li>
+    <li class="nav-item">
+        <a  class="nav-link text-dark disabled" asp-area="" asp-page="" title="Manage">Hello, @fullName!</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

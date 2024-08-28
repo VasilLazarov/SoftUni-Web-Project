@@ -1,0 +1,75 @@
+﻿@model OrderFormModel
+@{
+    ViewBag.Title = "Make Order";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (!Model.Products.Any())
+{
+    <h2 class="text-center">You have no products in cart!</h2>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <partial name="_OrderProductPartial" model="@product" />
+            }
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 d-flex align-items-stretch">
+            <div class="card w-100 align-items-center border-dark d-flex flex-column justify-content-between">
+                <div class="card-body text-center align-items-end">
+                    <h4>Total Price: <b>@String.Format("{0:f2}", Model.TotalPrice) BGN</b></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group disabled d-none">
+                <label asp-for="CartId"></label>
+                <input readonly asp-for="CartId" class="form-control">
+                <span asp-validation-for="CartId" class="small text-danger"></span>
+            </div>
+            <div class="form-group disabled d-none">
+                <label asp-for="TotalPrice"></label>
+                <input readonly asp-for="TotalPrice" class="form-control">
+                <span asp-validation-for="TotalPrice" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentMethod"></label>
+                <select asp-for="PaymentMethod" class="form-control">
+                    <option value="0">Payment in cash</option>
+                    <option value="1">Card payment</option>
+                </select>
+                <span asp-validation-for="PaymentMethod" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City"></label>
+                <input asp-for="City" class="form-control" placeholder="City...">
+                <span asp-validation-for="City" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetEtc"></label>
+                <input asp-for="StreetEtc" class="form-control" placeholder="Street etc...">
+                <span asp-validation-for="StreetEtc" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Order Completion" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

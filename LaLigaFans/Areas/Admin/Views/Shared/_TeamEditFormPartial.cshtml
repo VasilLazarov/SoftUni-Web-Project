@@ -1,0 +1,40 @@
+﻿@model TeamEditFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Name...">
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FoundedYear"></label>
+                <input asp-for="FoundedYear" class="form-control" placeholder="FoundedYear...">
+                <span asp-validation-for="FoundedYear" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoachName"></label>
+                <input asp-for="CoachName" class="form-control" placeholder="CoachName...">
+                <span asp-validation-for="CoachName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Information"></label>
+                <textarea asp-for="Information" rows="4" class="form-control" placeholder="Information..."></textarea>
+                <span asp-validation-for="Information" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageLogo"></label>
+                <br />
+                <input type="file" asp-for="ImageLogo" id="actual-btn" class="form-control" hidden>
+                <label class="btn btn-danger" for="actual-btn">Choose File</label>
+                <span id="file-chosen">No file chosen</span>
+                <span asp-validation-for="ImageLogo" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

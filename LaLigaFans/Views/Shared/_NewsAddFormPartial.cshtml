@@ -1,0 +1,40 @@
+﻿@model NewsAddFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-2 col-xl-8">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="Title...">
+                <span asp-validation-for="Title" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" rows="10" class="form-control" placeholder="Content..."></textarea>
+                <span asp-validation-for="Content" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamId"></label>
+                <select asp-for="TeamId" class="form-control">
+                    @foreach (var team in Model.Teams)
+                    {
+                            <option value="@team.Id">@team.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="TeamId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <br />
+                <input type="file" asp-for="Image" id="actual-btn" class="form-control" hidden>
+                <label class="btn btn-danger" for="actual-btn">Choose File</label>
+                <span id="file-chosen">No file chosen</span>
+                <span asp-validation-for="Image" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

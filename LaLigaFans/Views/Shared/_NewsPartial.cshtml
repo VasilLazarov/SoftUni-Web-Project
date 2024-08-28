@@ -1,0 +1,32 @@
+﻿@model NewsServiceModel
+@inject INewsService newsService
+
+<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3 d-flex">
+    <div class="card w-100 align-items-center border-dark">
+        <img class="card-img-top w-100 h-100" src="~/img/news/@Model.ImageUrl" alt="News Image" />
+
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Published on: <b>@Model.PublishedOn</b></h6>
+            <h6>Owner: <b>@Model.Owner</b></h6>
+            <a asp-area="" asp-controller="News" asp-action="Details" 
+            asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (User.IsAdmin() || await newsService.HasPublisherWithIdAsync(Model.Id, User.Id()))
+                {
+                    <a asp-area="" asp-controller="News" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    if(await newsService.ExistsAsync(Model.Id))
+                    {
+                        <a asp-area="" asp-controller="News" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="News" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+

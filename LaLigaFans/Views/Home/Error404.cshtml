@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <img class="w-100 h-auto" src="~/img/errors/NotFound.png" alt="BadRequest image">
+                <div class="text-left h4">
+                    <p>Oops, better check that URL. Page was not found.</p>
+                </div>
+                <div class="text-left h4">  Go back to Home Page</div>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-success">Home</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>

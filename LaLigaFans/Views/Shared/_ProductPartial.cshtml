@@ -1,0 +1,71 @@
+﻿@model ProductServiceModel
+@inject IProductService productService
+
+<div class="col-8 offset-2 offset-sm-0 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3 d-flex align-items-stretch">
+    <div class="card w-100 align-items-center border-dark d-flex flex-column justify-content-between">
+
+        <img class="card-img-top w-100 h-100" src="~/img/products/@Model.ImageUrl" alt="Product Image" />
+
+        <div class="card-body text-center align-items-end">
+            <h4>@Model.Name</h4>
+            <h6>Price: <b>@String.Format("{0:f2}", Model.Price) BGN</b></h6>
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-area="" asp-controller="Product" asp-action="Details" 
+                asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+                if (User.IsAdmin())
+                {
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    if(await productService.ExistAsync(Model.Id))
+                    {
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                    }
+                }
+                <p></p>
+                if(await productService.ExistAsync(Model.Id))
+                {
+                    if (await productService.IsFavoriteOfUserWithIdAsync(Model.Id, User.Id()))
+                    {
+                        <form asp-area="" asp-controller="Product" asp-action="RemoveFavorite" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Remove from favorites" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-area="" asp-controller="Product" asp-action="AddFavorite" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Add to favorites" />
+                        </form>
+                    }
+                    <p></p>
+                    if (await productService.IsProductAddedToCart(Model.Id, User.Id()))
+                    {
+                        <form asp-area="" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-lg btn-primary" type="submit" value="Remove from Cart" />
+                        </form>
+                    }
+                    else
+                    {
+                        if (await productService.IsProductAvailable(@Model.Id) == false)
+                        {
+                            <h6 class="text-danger">Product is not available!</h6>
+                            <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-lg btn-primary disabled" type="submit" value="Add to cart" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-area="" asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-lg btn-primary" type="submit" value="Add to cart" />
+                            </form>
+                        }
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+

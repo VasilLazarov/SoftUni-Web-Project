@@ -1,0 +1,18 @@
+﻿<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="All">Teams</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="News" asp-action="All">News</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="All">Shop</a>
+    </li>
+    @if(User.IsPublisher())
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="News" asp-action="Add">Add News</a>
+        </li>
+    }
+    
+</ul>

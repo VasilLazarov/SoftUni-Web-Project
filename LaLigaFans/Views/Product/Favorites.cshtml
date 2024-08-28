@@ -1,0 +1,50 @@
+﻿@model FavoriteProductsQueryModel
+@{
+    ViewBag.Title = "Favorites Products";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalProductsCount /
+        FavoriteProductsQueryModel.ProductsPerPage);
+}
+
+@if (!Model.Products.Any())
+{
+    <h2 class="text-center">You have no favorite products!</h2>
+}
+
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+            <partial name="_ProductPartial" model="@product" />
+    }
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Product" asp-action="Favorites"
+           asp-route-currentPage="@previousPage"><<</a>
+    </div>
+
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.Products.Any();
+    }
+
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-primary 
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="Product" asp-action="Favorites"
+           asp-route-currentPage="@(Model.CurrentPage + 1)">>></a>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@model NewsDetailsServiceModel
+@inject INewsService newsService
+
+@{
+    ViewBag.Title = "News Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-xl-6 text-center">
+            <img class="card-img-top" src="~/img//news/@Model.ImageUrl" alt="News Image">
+        </div>
+        <div class="card col-xl-6 border-0">
+            <h3 class="text-center pb-3"><b>@Model.Title</b></h3>
+            <p style="font-size: 1.2rem;text-align:justify">@Model.Content</p>
+            <p>Owner: <b>@Model.Owner</b></p>
+            <p>Published on: @Model.PublishedOn</p>
+            <div class="form-inline text-center">
+
+                @if (this.User?.Identity?.IsAuthenticated ?? false)
+                {
+                    if (User.IsAdmin() || await newsService.HasPublisherWithIdAsync(Model.Id, User.Id()))
+                    {
+                        <a asp-area="" asp-controller="News" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+
+                        if (await newsService.ExistsAsync(Model.Id))
+                        {
+                            <a asp-area="" asp-controller="News" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="News" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                        }
+                        
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-2">
+        <div class="col-xl-6">
+            @if (!Model.Comments.Any())
+            {
+                <h5 class="text-center">No comments found!</h5>
+            }
+            else
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                    <partial name="_CommentPartial" model="@comment" />
+                }
+            }
+        </div>
+        <div class="col-xl-6">
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                <h3 class="text-center">Add Comment</h3>
+                <partial name="_NewsCommentFormPartial" model="@Model.CommentForm" />
+            }
+        </div>
+            
+    </div>
+</div>
+
+@section Scripts{
+            <partial name="_ValidationScriptsPartial" />
+}

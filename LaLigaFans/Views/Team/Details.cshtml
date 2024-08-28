@@ -1,0 +1,61 @@
+﻿@model TeamDetailsServiceModel
+@inject ITeamService teamService
+
+@{
+    ViewBag.Title = "Team Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="card-img-top" src="~/img/teams/@Model.LogoUrl" alt="Team Image">
+        </div>
+        <div class="card col-md-8 border-0">
+            <h3 class="pb-2"><b>@Model.Name</b></h3>
+            <p style="font-size:1.1rem">Founded year: <b>@Model.FoundedYear</b></p>
+            <p style="font-size:1.1rem">Coach name: <b>@Model.CoachName</b></p>
+            <p style="font-size:1.2rem;text-align:justify">@Model.Information</p>
+            <div class="form-inline text-center">
+
+                @if (this.User?.Identity?.IsAuthenticated ?? false)
+                {
+                    if (User.IsAdmin())
+                    {
+                        <a asp-area="Admin" asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                        if(await teamService.ExistsAsync(Model.Id))
+                        {
+                            <a asp-area="Admin" asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-controller="Team" asp-action="Return" asp-route-id="@Model.Id" class="btn btn-danger">Return</a>
+                        }
+                    }
+                    <br />
+                    <br />
+                    if(await teamService.ExistsAsync(Model.Id))
+                    {
+                        if (await teamService.IsFollowedByUserWithIdAsync(Model.Id, User.Id()))
+                        {
+                            <form asp-area="" asp-controller="Team" asp-action="Unfollow" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Unfollow" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="input-group-sm" asp-area="" asp-controller="Team" asp-action="Follow" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Follow" />
+                            </form>
+                        }
+                    }
+                    
+                }
+                    <p></p>
+                    <a asp-area="" asp-controller="Player" asp-action="All" asp-route-id="@Model.Id" class="btn btn-primary">View @Model.Name players</a>
+            </div>
+        </div>
+    </div>
+</div>
+

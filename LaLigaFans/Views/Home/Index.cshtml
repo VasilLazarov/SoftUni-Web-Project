@@ -3,6 +3,29 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-3 fw-bold">Welcome to the La Liga fan page!</h1>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-5">
+        <img class="card-img-top w-75 h-auto" src="~/img/home/Laliga.png" alt="La Liga Image" />
+    </div>
+    <div class="col-7 d-flex align-items-center">
+        <div class="row">
+            <br />
+            <div class="col-12">
+                <p class="fs-4 text-center">
+                    Here you can view the teams in La Liga with information about them, read the latest news related to the teams and the championship, as well as buy fan items from our store.
+                </p>
+            </div>
+            <br />
+            <div class="col-12 d-flex justify-content-evenly m-4">
+                <a asp-area="" asp-controller="Team" asp-action="All" class="btn btn-primary btn-lg">Teams</a>
+                <a asp-area="" asp-controller="News" asp-action="All" class="btn btn-primary btn-lg">News</a>
+                <a asp-area="" asp-controller="Product" asp-action="All" class="btn btn-primary btn-lg">Shop</a>
+            </div>
+        </div>
+
+    </div>
 </div>
